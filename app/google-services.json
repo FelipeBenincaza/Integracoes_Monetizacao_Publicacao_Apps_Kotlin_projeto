@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "258942559877",
+    "project_id": "projeto-integracoes-kotlin",
+    "storage_bucket": "projeto-integracoes-kotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258942559877:android:642694df4e3e2728a76bec",
+        "android_client_info": {
+          "package_name": "com.benincaza.projetointegracoeskotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258942559877-v2r2shvj8r07b97edun5nc8t8vrde45q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.benincaza.projetointegracoeskotlin",
+            "certificate_hash": "36d323d71d0b2b8c323572c2eb2350a2ee754c3f"
+          }
+        },
+        {
+          "client_id": "258942559877-jmer8didb9nvpjl2tckviat6hp3ls3es.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7Tx6v_wAyWIitMTh6RF2DSULZ2n6-51g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "258942559877-jmer8didb9nvpjl2tckviat6hp3ls3es.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

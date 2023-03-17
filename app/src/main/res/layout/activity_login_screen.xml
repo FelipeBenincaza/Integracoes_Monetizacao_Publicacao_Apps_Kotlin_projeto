@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:chainUseRtl="true"
+    tools:ignore="Autofill"
+    android:padding="20dp"
+    android:background="@drawable/fundo_login"
+    tools:context=".LoginScreen">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entrar"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/edt_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="E-mail*"
+        android:id="@+id/edt_email"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:drawableStart="@drawable/outline_email_24"
+        app:layout_constraintBottom_toTopOf="@id/edt_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Senha*"
+        android:id="@+id/edt_password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:drawableStart="@drawable/outline_key_24"
+        app:layout_constraintBottom_toTopOf="@id/btn_enter"
+        app:layout_constraintEnd_toEndOf="@+id/edt_email"
+        app:layout_constraintStart_toStartOf="@+id/edt_email"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email"/>
+
+    <Button
+        android:id="@+id/btn_enter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Entrar"
+        android:backgroundTint="@color/slateGray"
+        app:layout_constraintBottom_toTopOf="@id/txt_register_view"
+        app:layout_constraintEnd_toEndOf="@+id/edt_password"
+        app:layout_constraintStart_toStartOf="@+id/edt_password"
+        app:layout_constraintTop_toBottomOf="@+id/edt_password"/>
+
+    <TextView
+        android:id="@+id/txt_register_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Não tem uma conta? Cadastre-se"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold|italic"
+        android:layout_marginTop="15dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_signin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_enter" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Entrar com Google"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:background="@drawable/button_redondo_google"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txt_register_view"
+        app:layout_constraintStart_toStartOf="@+id/txt_register_view"
+        app:layout_constraintTop_toBottomOf="@+id/txt_register_view" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

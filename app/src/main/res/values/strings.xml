@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Lista de Compras</string>
+    <string name="registro_com_google">Registro com Google</string>
+    <string name="login_com_google">Login com Google</string>
+
+    <string name="user_created_success">Usuário criado com sucesso. Verifique sua caixa de e-mail.</string>
+    <string name="email_registered">Email já cadastrado.</string>
+    <string name="erro_create_user">Erro ao criar usuário.</string>
+    <string name="password_inadequate_length">As senhas são iguais mas de tamanho inadequado.</string>
+    <string name="passwords_not_match">As senhas não coincidem.</string>
+    <string name="fill_all_fields">Preencha todos os campos.</string>
+    <string name="email_success_sent">E-mail enviado com sucesso.</string>
+    <string name="login_success">Logado com sucesso.</string>
+    <string name="login_failed">Falha ao logar.</string>
+    <string name="check_your_email">Verifique seu email.</string>
+
+</resources>
