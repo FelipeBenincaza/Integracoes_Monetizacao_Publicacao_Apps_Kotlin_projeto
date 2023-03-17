@@ -1,0 +1,2 @@
+# Integracoes_Monetizacao_Publicacao_Apps_Kotlin_projeto
+Trabalho de disciplina.
