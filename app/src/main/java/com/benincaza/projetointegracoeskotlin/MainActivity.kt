@@ -86,5 +86,11 @@ class MainActivity : AppCompatActivity() {
 
             startActivity(Intent(this, LoginScreen::class.java))
         }
+
+        findViewById<View>(R.id.profile).setOnClickListener{
+            val activity = Intent(this, ProfileActivity::class.java);
+            startActivity(activity)
+            finish()
+        }
     }
 }
