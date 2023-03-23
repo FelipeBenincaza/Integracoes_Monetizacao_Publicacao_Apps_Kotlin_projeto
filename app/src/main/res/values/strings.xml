@@ -13,5 +13,8 @@
     <string name="login_success">Logado com sucesso.</string>
     <string name="login_failed">Falha ao logar.</string>
     <string name="check_your_email">Verifique seu email.</string>
+    <string name="text_register">Não tem uma conta? Cadastre-se</string>
+    <string name="forgot_my_password">Esqueci minha senha</string>
+    <string name="entrar_com_google">Entrar com Google</string>
 
 </resources>

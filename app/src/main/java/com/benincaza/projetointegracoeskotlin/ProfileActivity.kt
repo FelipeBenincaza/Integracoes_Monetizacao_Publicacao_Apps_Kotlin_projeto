@@ -21,12 +21,12 @@ import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity : AppCompatActivity() {
 
-    lateinit var mGoogleSignClient: GoogleSignInClient;
+    lateinit var mGoogleSignClient: GoogleSignInClient
 
-    private val PERMISSION_REQUEST_CAMERA = 0;
-    private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private val PERMISSION_REQUEST_CAMERA = 0
+    private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 1
 
-    var _image: Bitmap? = null;
+    var _image: Bitmap? = null
 
     companion object{
         private const val REQUEST_IMAGE_GALLERY = 1
@@ -41,9 +41,10 @@ class ProfileActivity : AppCompatActivity() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
-            .build();
-        mGoogleSignClient = GoogleSignIn.getClient(this, gso);
-        val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance();
+            .build()
+
+        mGoogleSignClient = GoogleSignIn.getClient(this, gso)
+        val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
 //        TODO: Carregar dados do firebase auth
         val user = firebaseAuth.currentUser
@@ -89,7 +90,7 @@ class ProfileActivity : AppCompatActivity() {
             firebaseAuth.signOut();
             mGoogleSignClient.signOut();
 
-            val activity = Intent(this, LoginScreen::class.java);
+            val activity = Intent(this, LoginScreen::class.java)
             startActivity(activity)
             finish()
         }

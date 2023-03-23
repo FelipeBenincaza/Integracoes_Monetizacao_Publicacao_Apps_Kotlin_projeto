@@ -60,32 +60,47 @@
         android:layout_marginTop="20dp"
         android:text="Entrar"
         android:backgroundTint="@color/slateGray"
-        app:layout_constraintBottom_toTopOf="@id/txt_register_view"
+        app:layout_constraintBottom_toTopOf="@id/txt_esqueci_senha"
         app:layout_constraintEnd_toEndOf="@+id/edt_password"
         app:layout_constraintStart_toStartOf="@+id/edt_password"
         app:layout_constraintTop_toBottomOf="@+id/edt_password"/>
 
     <TextView
+        android:id="@+id/txt_esqueci_senha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/forgot_my_password"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold|italic"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@id/txt_register_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_enter" />
+
+    <TextView
         android:id="@+id/txt_register_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Não tem uma conta? Cadastre-se"
+        android:text="@string/text_register"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold|italic"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toTopOf="@id/btn_signin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_enter" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_esqueci_senha" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Entrar com Google"
+        android:text="@string/entrar_com_google"
         android:textColor="@color/white"
         android:padding="10dp"
         android:background="@drawable/button_redondo_google"

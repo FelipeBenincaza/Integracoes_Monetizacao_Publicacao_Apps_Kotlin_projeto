@@ -42,6 +42,17 @@ class LoginScreen : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+        findViewById<View>(R.id.txt_esqueci_senha).setOnClickListener{
+            FormForgotPassword(this)
+                .show(supportFragmentManager) { eventoCriado ->
+                    firebaseAuth.sendPasswordResetEmail(eventoCriado.email).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(this, "Email enviado com sucesso!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+        }
+
         findViewById<View>(R.id.txt_register_view).setOnClickListener{
             startActivity(Intent(this, CreateAccount::class.java))
         }
