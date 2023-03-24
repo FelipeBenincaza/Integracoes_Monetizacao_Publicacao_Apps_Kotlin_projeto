@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,6 +19,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -46,17 +54,32 @@ class ProfileActivity : AppCompatActivity() {
         mGoogleSignClient = GoogleSignIn.getClient(this, gso)
         val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-//        TODO: Carregar dados do firebase auth
         val user = firebaseAuth.currentUser
         if(user != null){
-            var displayName = user.displayName
-            var email = user.email
-            var photoUrl = user.photoUrl
-//            var splitName = displayName.toString().split(" ")
+            val displayName = user.displayName
+            val email = user.email
+            val photoUrl = user.photoUrl
 
-            findViewById<EditText>(R.id.name).setText(displayName)
-//            findViewById<EditText>(R.id.last_name).setText(splitName[1])
+            if(displayName.toString() != "") {
+                val nameSplit = displayName.toString().split(" ")
+                if(nameSplit.size > 1){
+                    findViewById<EditText>(R.id.name).setText(nameSplit[0])
+                    findViewById<EditText>(R.id.last_name).setText(nameSplit[1])
+                }else{
+                    findViewById<EditText>(R.id.name).setText(displayName.toString())
+                }
+            }
             findViewById<EditText>(R.id.email).setText(email)
+
+            if(photoUrl != null){
+                Thread{
+                    val file = saveLocalFile(photoUrl.toString())
+                    runOnUiThread{
+                        val bitmap = BitmapFactory.decodeFile(file.path)
+                        findViewById<ImageView>(R.id.profile_image).setImageBitmap(bitmap)
+                    }
+                }.start()
+            }
         }
 
         findViewById<View>(R.id.update_profile).setOnClickListener{
@@ -94,14 +117,83 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(activity)
             finish()
         }
+
+        findViewById<View>(R.id.change_password).setOnClickListener {
+            FormReplacePassword(this).show() { eventoCriado ->
+                val user = firebaseAuth.currentUser
+
+                user!!.updatePassword(eventoCriado.password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(this, getString(R.string.senha_alterada), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+        }
     }
 
-    fun saveLocalFile(){
+    fun saveLocalFile(_url: String): File {
+        val url = URL(_url)
+        val connection = url.openConnection() as HttpURLConnection
+        connection.doInput = true
+        connection.connect()
 
+        val input = connection.inputStream
+        val dir = File(getExternalFilesDir(null), "images")
+        if(!dir.exists()){
+            dir.mkdir()
+        }
+
+        val file = File(dir, "imagem.jpg")
+        val output = FileOutputStream(file)
+
+        val buffer = ByteArray(1024)
+        var read: Int;
+        while(input.read(buffer).also { read = it} != -1){
+            output.write(buffer, 0, read)
+        }
+
+        output.flush()
+        output.close()
+        input.close()
+
+        return file
     }
 
     fun saveProfile(){
+        val name = findViewById<EditText>(R.id.name).text.toString()
+        val last_name = findViewById<EditText>(R.id.last_name).text.toString()
 
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val user = FirebaseAuth.getInstance().currentUser
+        val uid = user?.uid
+
+        val imageRef = storageRef.child("profile_images/${uid}")
+        val baos = ByteArrayOutputStream()
+        this._image?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+
+        val data = baos.toByteArray()
+        val uploadTask = imageRef.putBytes(data)
+
+        uploadTask.addOnFailureListener {
+            Toast.makeText(this, "Falha ao salvar imagem", Toast.LENGTH_SHORT).show()
+        }.addOnSuccessListener { taskSnapshot ->
+            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                val profileUpdates = userProfileChangeRequest {
+                    displayName = "${name} ${last_name}"
+                    photoUri = Uri.parse(uri.toString())
+                }
+
+                user!!.updateProfile(profileUpdates).addOnCompleteListener{ task ->
+                    if(task.isSuccessful){
+                        Toast.makeText(this, "Perfil atualizado com sucesso", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(this, "Falha ao atualizar perfil", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(

@@ -3,15 +3,14 @@ package com.benincaza.projetointegracoeskotlin
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
-import androidx.fragment.app.FragmentManager
-import com.benincaza.projetointegracoeskotlin.databinding.FormForgotPasswordBinding
+import com.benincaza.projetointegracoeskotlin.databinding.FormReplacePasswordBinding
 
-class FormForgotPassword(private val context: Context) {
+class FormReplacePassword(private val context: Context) {
 
     fun show(
-        quandoEventoCriado: (eventoCriado: EventoForgotPassword) -> Unit
+        quandoEventoCriado: (eventoCriado: EventReplacePassword) -> Unit
     ) {
-        val binding = FormForgotPasswordBinding
+        val binding = FormReplacePasswordBinding
             .inflate(LayoutInflater.from(context))
 
         val dialog = AlertDialog.Builder(context)
@@ -23,8 +22,8 @@ class FormForgotPassword(private val context: Context) {
         }
 
         binding.botaoSalvar.setOnClickListener {
-            val titulo = binding.email.text.toString()
-            val evento = EventoForgotPassword(titulo)
+            val password = binding.password.text.toString()
+            val evento = EventReplacePassword(password)
             dialog.dismiss()
             quandoEventoCriado(evento)
         }

@@ -46,10 +46,12 @@
 
         <ImageView
             android:id="@+id/profile_image"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/grayFoto"
-            android:layout_marginTop="56dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_shape"
+            android:layout_gravity="center"
+            android:layout_marginTop="76dp"
             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -101,22 +103,27 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
                 android:hint="Nome"
-                android:inputType="textPersonName"
-                android:enabled="false"/>
+                android:inputType="textPersonName"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/last_name"
                 android:hint="Sobrenome"
-                android:inputType="textPersonName"
-                android:enabled="false"/>
+                android:inputType="textPersonName"/>
 
             <Button
                 android:id="@+id/update_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Atualizar Perfil"/>
+
+            <Button
+                android:id="@+id/change_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red"
+                android:text="Alterar Senha"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
