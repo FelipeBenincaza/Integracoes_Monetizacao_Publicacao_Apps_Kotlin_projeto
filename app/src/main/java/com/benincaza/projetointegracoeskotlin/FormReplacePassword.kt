@@ -8,7 +8,7 @@ import com.benincaza.projetointegracoeskotlin.databinding.FormReplacePasswordBin
 class FormReplacePassword(private val context: Context) {
 
     fun show(
-        quandoEventoCriado: (eventoCriado: EventReplacePassword) -> Unit
+        eventoCriado: (eventoCriado: EventReplacePassword) -> Unit
     ) {
         val binding = FormReplacePasswordBinding
             .inflate(LayoutInflater.from(context))
@@ -22,10 +22,19 @@ class FormReplacePassword(private val context: Context) {
         }
 
         binding.botaoSalvar.setOnClickListener {
-            val password = binding.password.text.toString()
-            val evento = EventReplacePassword(password)
-            dialog.dismiss()
-            quandoEventoCriado(evento)
+            try {
+                val valida = ValidateAuthentication(context)
+                valida.validaCampoRegisterSenha(binding.password, binding.confirmPassword)
+
+                val password = binding.password.text.toString()
+                val evento = EventReplacePassword(password)
+                dialog.dismiss()
+                eventoCriado(evento)
+            } catch (e: ValidateAuthenticationException){
+                Util.showToast(context, e.message.toString())
+            }
+
+
         }
     }
 }

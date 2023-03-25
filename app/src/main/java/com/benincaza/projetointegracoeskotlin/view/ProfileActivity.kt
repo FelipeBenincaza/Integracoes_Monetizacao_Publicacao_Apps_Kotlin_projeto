@@ -1,4 +1,4 @@
-package com.benincaza.projetointegracoeskotlin
+package com.benincaza.projetointegracoeskotlin.view
 
 import android.Manifest
 import android.content.Intent
@@ -15,6 +15,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.benincaza.projetointegracoeskotlin.FormReplacePassword
+import com.benincaza.projetointegracoeskotlin.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions

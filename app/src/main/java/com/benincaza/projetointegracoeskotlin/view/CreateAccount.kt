@@ -1,4 +1,4 @@
-package com.benincaza.projetointegracoeskotlin
+package com.benincaza.projetointegracoeskotlin.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import com.benincaza.projetointegracoeskotlin.R
+import com.benincaza.projetointegracoeskotlin.Util
+import com.benincaza.projetointegracoeskotlin.ValidateAuthentication
+import com.benincaza.projetointegracoeskotlin.ValidateAuthenticationException
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -56,7 +60,7 @@ class CreateAccount : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.btn_signin).setOnClickListener {
-            Toast.makeText(this, R.string.registro_com_google, Toast.LENGTH_SHORT).show()
+            Util.showToast(this, getString(R.string.registro_com_google))
             signInGoogle()
         }
 
@@ -82,13 +86,13 @@ class CreateAccount : AppCompatActivity() {
     private fun handleResult(completedTask: Task<GoogleSignInAccount>){
         try{
             val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java);
-            Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
+            Util.showToast(this, getString(R.string.login_success))
             if(account != null){
                 UpdateUser(account)
             }
         }catch (e: ApiException){
             println(e)
-            Toast.makeText(this, R.string.login_failed, Toast.LENGTH_SHORT).show();
+            Util.showToast(this, getString(R.string.login_failed))
         }
     }
 
@@ -103,22 +107,11 @@ class CreateAccount : AppCompatActivity() {
         }
     }
 
-    private fun verifyFields(): String{
-        if (edtPassword.text.toString().trim().isEmpty() && edtEmail.text.toString().trim().isEmpty() && edtConfirmPassword.text.toString().trim().isEmpty())
-            return getString(R.string.fill_all_fields)
-
-        if(edtPassword.text.toString().trim() != edtConfirmPassword.text.toString().trim())
-            return getString(R.string.passwords_not_match)
-
-        if(edtPassword.text.toString().trim().length < 6)
-            return getString(R.string.password_inadequate_length)
-
-        return ""
-    }
-
     private fun signIn() {
-        val msg = verifyFields()
-        if (msg.isEmpty()) {
+        try {
+            val valida = ValidateAuthentication(this)
+            valida.validaCampoEmail(edtEmail)
+            valida.validaCampoRegisterSenha(edtPassword, edtConfirmPassword)
 
             val userEmail = edtEmail.text.toString().trim()
             val userPassword = edtPassword.text.toString().trim()
@@ -127,19 +120,19 @@ class CreateAccount : AppCompatActivity() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         sendEmailVerification()
-                        Toast.makeText(this, R.string.user_created_success, Toast.LENGTH_SHORT).show()
+                        Util.showToast(this, getString(R.string.user_created_success))
                         finish()
                     } else {
                         val exception = task.exception;
                         if (exception is FirebaseAuthException && exception.errorCode == "ERROR_EMAIL_ALREADY_IN_USE") {
-                            Toast.makeText(this, R.string.email_registered, Toast.LENGTH_SHORT).show()
+                            Util.showToast(this, getString(R.string.email_registered))
                         } else {
-                            Toast.makeText(this, R.string.erro_create_user, Toast.LENGTH_SHORT).show()
+                            Util.showToast(this, getString(R.string.erro_create_user))
                         }
                     }
                 }
-        } else {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        }catch (e: ValidateAuthenticationException){
+            Util.showToast(this, e.message.toString())
         }
     }
 
@@ -149,7 +142,7 @@ class CreateAccount : AppCompatActivity() {
         firebaseUser?.let {
             it.sendEmailVerification().addOnCompleteListener { task ->
                 if(task.isSuccessful){
-                    Toast.makeText(this, R.string.email_success_sent, Toast.LENGTH_SHORT).show();
+                    Util.showToast(this, getString(R.string.email_success_sent))
                 }
             }
         }

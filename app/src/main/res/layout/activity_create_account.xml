@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:padding="20dp"
     android:background="@drawable/fundo_login"
-    tools:context=".CreateAccount">
+    tools:context=".view.CreateAccount">
 
     <TextView
         android:id="@+id/textView1"

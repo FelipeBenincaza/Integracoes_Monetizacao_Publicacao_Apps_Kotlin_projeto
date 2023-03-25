@@ -17,5 +17,8 @@
     <string name="forgot_my_password">Esqueci minha senha</string>
     <string name="entrar_com_google">Entrar com Google</string>
     <string name="senha_alterada">Senha alterada com sucesso!</string>
+    <string name="campo_email_vazio">Preencha o campo de email.</string>
+    <string name="campo_senha_vazio">Preencha o campo da senha.</string>
+    <string name="email_enviado_suceso">Email enviado com sucesso!</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.benincaza.projetointegracoeskotlin
+package com.benincaza.projetointegracoeskotlin.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ListView
+import com.benincaza.projetointegracoeskotlin.ListaComprasPreferences
+import com.benincaza.projetointegracoeskotlin.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions

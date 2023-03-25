@@ -8,7 +8,7 @@
     tools:ignore="Autofill"
     android:padding="20dp"
     android:background="@drawable/fundo_login"
-    tools:context=".LoginScreen">
+    tools:context=".view.LoginScreen">
 
     <TextView
         android:id="@+id/textView1"
