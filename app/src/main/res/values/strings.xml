@@ -21,4 +21,9 @@
     <string name="campo_senha_vazio">Preencha o campo da senha.</string>
     <string name="email_enviado_suceso">Email enviado com sucesso!</string>
 
+    <string name="descricao_task_field">Descrição</string>
+    <string name="titulo_task_field">Título</string>
+    <string name="btn_select_date">Data</string>
+    <string name="btn_select_hour">Hora</string>
+    <string name="save_task">Salvar</string>
 </resources>

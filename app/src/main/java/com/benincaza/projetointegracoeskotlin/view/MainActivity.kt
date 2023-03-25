@@ -94,5 +94,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(activity)
             finish()
         }
+
+        findViewById<View>(R.id.fab_add_task).setOnClickListener{
+            val activity = Intent(this, ConvidadoActivity::class.java);
+            startActivity(activity)
+            finish()
+        }
     }
 }
