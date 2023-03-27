@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ConvidadoActivity">
+    tools:context=".view.LivrosActivity">
 
     <LinearLayout
         android:id="@+id/textArea"
@@ -12,38 +12,47 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/dataArea"
         android:orientation="vertical">
-        <EditText
-            android:id="@+id/titulo"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutTitulo"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:backgroundTint="@color/purple_500"
             android:layout_height="wrap_content"
-            android:hint="@string/titulo_task_field"
             android:layout_marginTop="50dp"
-            android:padding="10dp"
             android:layout_marginHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/descricao"
-            app:layout_constraintVertical_chainStyle="packed"
-            />
+            app:layout_constraintBottom_toTopOf="@id/textInputLayoutGenero"
+            app:layout_constraintVertical_chainStyle="packed">
 
-        <EditText
-            android:id="@+id/descricao"
-            android:inputType="textMultiLine"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_titulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/titulo_do_livro" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutGenero"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/purple_500"
-            android:hint="@string/descricao_task_field"
-            android:layout_marginTop="5dp"
-            android:padding="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginHorizontal="20dp"
-            android:gravity="top"
-            android:lines="4"
-            app:layout_constraintEnd_toEndOf="@id/titulo"
-            app:layout_constraintStart_toStartOf="@id/titulo"
-            app:layout_constraintTop_toTopOf="@id/titulo"
-            />
+            app:layout_constraintEnd_toEndOf="@id/textInputLayoutTitulo"
+            app:layout_constraintStart_toStartOf="@id/textInputLayoutTitulo"
+            app:layout_constraintTop_toTopOf="@id/textInputLayoutTitulo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_genero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:hint="@string/generos" />
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout

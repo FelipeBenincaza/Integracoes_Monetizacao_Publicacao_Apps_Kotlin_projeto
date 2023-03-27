@@ -4,12 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.SparseBooleanArray
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ListView
 import com.benincaza.projetointegracoeskotlin.ListaComprasPreferences
 import com.benincaza.projetointegracoeskotlin.R
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -21,9 +21,12 @@ class MainActivity : AppCompatActivity() {
     private val PRODUCTS = "produtos"
     lateinit var mGoogleSignClient: GoogleSignInClient
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -51,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         listViewTasks.adapter = adapter
         adapter.notifyDataSetChanged()
 
-        findViewById<View>(R.id.btn_add).setOnClickListener {
+        binding.btnAdd.setOnClickListener {
             itemList.add(edtProduct.text.toString());
             listViewTasks.adapter = adapter
             adapter.notifyDataSetChanged()
@@ -60,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             edtProduct.text.clear()
         }
 
-        findViewById<View>(R.id.btn_delete).setOnClickListener {
+        binding.btnDelete.setOnClickListener {
             val position: SparseBooleanArray = listViewTasks.checkedItemPositions
             val count = listViewTasks.count
             var item = count - 1
@@ -76,27 +79,27 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
 
-        findViewById<View>(R.id.btn_clear).setOnClickListener {
+        binding.btnClear.setOnClickListener {
             itemList.clear()
             ListaComprasPreferences(this).storeString(PRODUCTS, itemList)
             adapter.notifyDataSetChanged()
         }
 
-        findViewById<View>(R.id.logout).setOnClickListener{
+        binding.logout.setOnClickListener{
             firebaseAuth.signOut()
             mGoogleSignClient.signOut()
 
             startActivity(Intent(this, LoginScreen::class.java))
         }
 
-        findViewById<View>(R.id.profile).setOnClickListener{
+        binding.profile.setOnClickListener{
             val activity = Intent(this, ProfileActivity::class.java);
             startActivity(activity)
             finish()
         }
 
-        findViewById<View>(R.id.fab_add_task).setOnClickListener{
-            val activity = Intent(this, ConvidadoActivity::class.java);
+        binding.fabAddTask.setOnClickListener{
+            val activity = Intent(this, LivrosActivity::class.java);
             startActivity(activity)
             finish()
         }

@@ -8,11 +8,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.benincaza.projetointegracoeskotlin.R
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosBinding
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
-class ConvidadoActivity : AppCompatActivity() {
+class LivrosActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLivrosBinding
 
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     val db_ref = FirebaseDatabase.getInstance().getReference("/users/$uid/tasks")
@@ -21,7 +25,7 @@ class ConvidadoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_convidado)
+        setContentView(R.layout.activity_livros)
 
         loadTask()
 
@@ -67,8 +71,8 @@ class ConvidadoActivity : AppCompatActivity() {
         if(taskId !== ""){
 //            TODO: Atualizar tarefa
         }else{
-            val titulo = findViewById<EditText>(R.id.titulo)
-            val descricao = findViewById<EditText>(R.id.descricao)
+            val titulo = binding.edtTitulo
+            val descricao = binding.edtGenero
             val data = findViewById<EditText>(R.id.in_date)
             val hora = findViewById<EditText>(R.id.in_time)
 

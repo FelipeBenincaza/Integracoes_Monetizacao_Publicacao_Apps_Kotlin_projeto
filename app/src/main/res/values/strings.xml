@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lista de Compras</string>
+    <string name="app_name">Lista de Livros</string>
     <string name="registro_com_google">Registro com Google</string>
     <string name="login_com_google">Login com Google</string>
 
@@ -27,4 +27,6 @@
     <string name="btn_select_hour">Hora</string>
     <string name="save_task">Salvar</string>
     <string name="email_invalido">E-mail inválido.</string>
+    <string name="titulo_do_livro">Título do livro</string>
+    <string name="generos">Gêneros</string>
 </resources>
