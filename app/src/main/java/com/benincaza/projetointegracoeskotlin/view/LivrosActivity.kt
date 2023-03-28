@@ -1,17 +1,20 @@
 package com.benincaza.projetointegracoeskotlin.view
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import com.benincaza.projetointegracoeskotlin.R
+import com.benincaza.projetointegracoeskotlin.Util
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosBinding
-import com.benincaza.projetointegracoeskotlin.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 class LivrosActivity : AppCompatActivity() {
@@ -19,74 +22,125 @@ class LivrosActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLivrosBinding
 
     val uid = FirebaseAuth.getInstance().currentUser?.uid
-    val db_ref = FirebaseDatabase.getInstance().getReference("/users/$uid/tasks")
+    val db_ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
 
-    var taskId: String = ""
+    var livroId: String = ""
+    var status: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_livros)
+        binding = ActivityLivrosBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        loadTask()
+        load()
 
-        val in_date = findViewById<EditText>(R.id.in_date)
-        val in_time = findViewById<EditText>(R.id.in_time)
+        val in_date = binding.edtData
 
         val current_date_time = Calendar.getInstance()
         val day = current_date_time.get(Calendar.DAY_OF_MONTH)
         val month = current_date_time.get(Calendar.MONTH)
         val year = current_date_time.get(Calendar.YEAR)
-        val hour = current_date_time.get(Calendar.HOUR_OF_DAY)
-        val minute = current_date_time.get(Calendar.MINUTE)
 
         in_date.setText(String.format("%02d/%02d/%04d", day, month + 1, year))
-        in_time.setText(String.format("%02d:%02d", hour, minute))
 
-        findViewById<Button>(R.id.btn_date).setOnClickListener{
+        binding.btnDate.setOnClickListener{
             val datePickerDialog = DatePickerDialog(this, {_, yearOfYear, monthOfYear, dayOfMonth ->
                 in_date.setText(String.format("%02d/%02d/%04d", dayOfMonth, monthOfYear + 1, yearOfYear))
             }, year, month, day)
             datePickerDialog.show()
         }
 
-        findViewById<Button>(R.id.btn_time).setOnClickListener{
-            val timePickerDialog = TimePickerDialog(this, {_, hourOfDay, minuteOfHour ->
-                in_time.setText(String.format("%02d:%02d", hourOfDay, minuteOfHour))
-            }, hour, minute, true)
-            timePickerDialog.show()
-        }
-
-        findViewById<Button>(R.id.btn_save_task).setOnClickListener{
-            createUpdateTask()
+        binding.btnSave.setOnClickListener{
+            createUpdate()
         }
     }
 
-    fun loadTask(){
-        this.taskId = intent.getStringExtra("id") ?: ""
-        if(taskId === "") return
-//        TODO: Carregar tarefa
+    fun onRadioButtonClicked(view: View) {
+        if (view is RadioButton) {
+            // Is the button now checked?
+            val checked = view.isChecked
+
+            // Check which radio button was clicked
+            when (view.getId()) {
+                R.id.rb_nao_lido ->
+                    if (checked) {
+                        status = view.text.toString()
+                    }
+                R.id.rb_lido ->
+                    if (checked) {
+                        status = view.text.toString()
+                    }
+            }
+        }
     }
 
-    fun createUpdateTask(){
-        if(taskId !== ""){
-//            TODO: Atualizar tarefa
+    fun load(){
+        this.livroId = intent.getStringExtra("id") ?: ""
+        if(livroId === "") return
+
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros/$livroId")
+
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(!snapshot.exists()) return
+
+                binding.edtTitulo.setText(snapshot.child("titulo").value.toString())
+                binding.edtGenero.setText(snapshot.child("descricao").value.toString())
+                binding.edtPaginas.setText(snapshot.child("paginas").value.toString())
+                binding.edtData.setText(snapshot.child("data").value.toString())
+                if (snapshot.child("status").value.toString().equals("Lido")){
+                    binding.rbLido.isChecked = true
+                } else{
+                    binding.rbNaoLido.isChecked = true
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@LivrosActivity, "Erro ao carregar livro", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    fun createUpdate(){
+        if(livroId !== ""){
+            val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/tasks/$taskId")
+
+            ref.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(!snapshot.exists()) return
+                    val task = snapshot.value as HashMap<String, String>
+
+                    task["titulo"] = binding.edtTitulo.text.toString()
+                    task["descricao"] = binding.edtGenero.text.toString()
+                    task["paginas"] = binding.edtPaginas.text.toString()
+                    task["data"] = binding.edtData.text.toString()
+                    task["status"] = status
+
+                    ref.setValue(task)
+                    Toast.makeText(this@LivrosActivity, "Livro atualizado com sucesso", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@LivrosActivity, "Erro ao atualizar livro", Toast.LENGTH_SHORT).show()
+                }
+            })
         }else{
-            val titulo = binding.edtTitulo
-            val descricao = binding.edtGenero
-            val data = findViewById<EditText>(R.id.in_date)
-            val hora = findViewById<EditText>(R.id.in_time)
-
-            val task =  hashMapOf(
-                "titulo" to titulo.text.toString(),
-                "descricao" to descricao.text.toString(),
-                "data" to data.text.toString(),
-                "hora" to hora.text.toString(),
+            val livro =  hashMapOf(
+                "titulo" to binding.edtTitulo.text.toString(),
+                "descricao" to binding.edtGenero.text.toString(),
+                "paginas" to binding.edtPaginas.text.toString(),
+                "data" to binding.edtData.text.toString(),
+                "status" to status,
             )
 
             val novoElemento = db_ref.push()
-            novoElemento.setValue(task)
+            novoElemento.setValue(livro)
 
-            Toast.makeText(this, "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show()
+            Util.showToast(this, getString(R.string.livro_criado_sucesso))
+
+            Intent(this, MainActivity::class.java).also {
+                startActivity(it)
+            }
         }
     }
 }

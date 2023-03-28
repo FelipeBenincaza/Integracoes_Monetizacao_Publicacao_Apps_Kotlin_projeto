@@ -3,11 +3,9 @@ package com.benincaza.projetointegracoeskotlin.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.SparseBooleanArray
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ListView
-import com.benincaza.projetointegracoeskotlin.ListaComprasPreferences
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -15,11 +13,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class MainActivity : AppCompatActivity() {
 
-    private val PRODUCTS = "produtos"
     lateinit var mGoogleSignClient: GoogleSignInClient
+
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
+    val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
+    val listItems = ArrayList<String>()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -33,57 +38,18 @@ class MainActivity : AppCompatActivity() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-
         mGoogleSignClient = GoogleSignIn.getClient(this, gso)
 
         val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-
         val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
-
         if(firebaseUser == null){
             val intent = Intent(this, LoginScreen::class.java)
             startActivity(intent)
         }
 
-        val listViewTasks = findViewById<ListView>(R.id.listViewTasks)
-        val edtProduct = findViewById<EditText>(R.id.edt_product)
-
-        val itemList = ListaComprasPreferences(this).getString(PRODUCTS)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, itemList)
-
-        listViewTasks.adapter = adapter
-        adapter.notifyDataSetChanged()
-
-        binding.btnAdd.setOnClickListener {
-            itemList.add(edtProduct.text.toString());
-            listViewTasks.adapter = adapter
-            adapter.notifyDataSetChanged()
-
-            ListaComprasPreferences(this).storeString(PRODUCTS, itemList)
-            edtProduct.text.clear()
-        }
-
-        binding.btnDelete.setOnClickListener {
-            val position: SparseBooleanArray = listViewTasks.checkedItemPositions
-            val count = listViewTasks.count
-            var item = count - 1
-            while(item >= 0){
-                if(position.get(item)){
-                    adapter.remove(itemList.get(item))
-                }
-                item--
-            }
-
-            ListaComprasPreferences(this).storeString(PRODUCTS, itemList)
-            position.clear()
-            adapter.notifyDataSetChanged()
-        }
-
-        binding.btnClear.setOnClickListener {
-            itemList.clear()
-            ListaComprasPreferences(this).storeString(PRODUCTS, itemList)
-            adapter.notifyDataSetChanged()
-        }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
+        val listView = binding.listViewTasks
+        listView.adapter = adapter
 
         binding.logout.setOnClickListener{
             firebaseAuth.signOut()
@@ -101,7 +67,52 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddTask.setOnClickListener{
             val activity = Intent(this, LivrosActivity::class.java);
             startActivity(activity)
-            finish()
+
         }
+
+        ref.addValueEventListener(object: ValueEventListener {
+            val ctx = this@MainActivity;
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                listItems.clear()
+
+                for(child in dataSnapshot.children){
+                    listItems.add(child.child("titulo").value.toString())
+                }
+
+                adapter.notifyDataSetChanged()
+
+                listView.setOnItemLongClickListener { parent, view, position, id ->
+                    val itemId =  dataSnapshot.children.toList()[position].key
+
+                    if(itemId != null){
+                        AlertDialog.Builder(ctx)
+                            .setTitle("Deletar tarefa")
+                            .setMessage("Deseja deletar a tarefa?")
+                            .setPositiveButton("Sim"){ dialog, which ->
+                                ref.child(itemId).removeValue()
+                                Toast.makeText(ctx, "Tarefa deletada com sucesso", Toast.LENGTH_SHORT).show()
+                            }
+                            .setNegativeButton("Não"){ dialog, which ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                    }
+
+                    true
+                }
+                listView.setOnItemClickListener { parent, view, position, id ->
+                    val itemId =  dataSnapshot.children.toList()[position].key
+
+                    val activity = Intent(ctx, LivrosActivity::class.java)
+                    activity.putExtra("id", itemId)
+                    startActivity(activity)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(ctx, "Erro ao carregar tarefas", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

@@ -29,4 +29,6 @@
     <string name="email_invalido">E-mail inválido.</string>
     <string name="titulo_do_livro">Título do livro</string>
     <string name="generos">Gêneros</string>
+    <string name="livro_criado_sucesso">Livro criado com sucesso!</string>
+    <string name="numero_de_paginas">Número de páginas</string>
 </resources>
