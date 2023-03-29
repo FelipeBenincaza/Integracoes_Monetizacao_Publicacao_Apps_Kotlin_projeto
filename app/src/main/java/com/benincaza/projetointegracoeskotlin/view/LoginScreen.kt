@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import com.benincaza.projetointegracoeskotlin.*
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityLoginScreenBinding
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityProfileBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -19,8 +21,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginScreen : AppCompatActivity() {
 
-    lateinit var edtEmail: EditText
-    lateinit var edtPassword: EditText
+    private lateinit var binding: ActivityLoginScreenBinding
 
     val Req_Code:Int=123456;
     lateinit var mGoogleSignInClient: GoogleSignInClient
@@ -30,9 +31,6 @@ class LoginScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_screen)
         supportActionBar?.hide()
-
-        edtEmail = findViewById<EditText>(R.id.edt_email)
-        edtPassword = findViewById<EditText>(R.id.edt_password)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -54,16 +52,16 @@ class LoginScreen : AppCompatActivity() {
                 }
         }
 
-        findViewById<View>(R.id.txt_register_view).setOnClickListener{
+        binding.txtRegisterView.setOnClickListener{
             startActivity(Intent(this, CreateAccount::class.java))
         }
 
-        findViewById<View>(R.id.btn_signin).setOnClickListener {
+        binding.btnSignin.setOnClickListener {
             Util.showToast(this, getString(R.string.login_com_google))
             signInGoogle()
         }
 
-        findViewById<View>(R.id.btn_enter).setOnClickListener {
+        binding.btnEnter.setOnClickListener {
             sign()
         }
     }
@@ -109,11 +107,11 @@ class LoginScreen : AppCompatActivity() {
     private fun sign(){
         try {
             val valida = ValidateAuthentication(this)
-            valida.validaCampoEmail(edtEmail)
-            valida.validaCampoSenha(edtPassword)
+            valida.validaCampoEmail(binding.edtEmail)
+            valida.validaCampoSenha(binding.edtPassword)
 
-            val userEmail = edtEmail.text.toString().trim()
-            val userPassword = edtPassword.text.toString().trim()
+            val userEmail = binding.edtEmail.text.toString().trim()
+            val userPassword = binding.edtPassword.text.toString().trim()
 
             firebaseAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener { task ->
                 if(task.isSuccessful){

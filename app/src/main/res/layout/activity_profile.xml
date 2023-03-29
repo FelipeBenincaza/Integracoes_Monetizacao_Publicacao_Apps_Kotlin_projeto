@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/email"
-                android:hint="E-mail"
+                android:hint="@string/email_profile"
                 android:inputType="textEmailAddress"
                 android:enabled="false"/>
 
@@ -102,28 +102,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
-                android:hint="Nome"
+                android:hint="@string/nome"
                 android:inputType="textPersonName"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/last_name"
-                android:hint="Sobrenome"
+                android:hint="@string/sobrenome"
                 android:inputType="textPersonName"/>
 
             <Button
                 android:id="@+id/update_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Atualizar Perfil"/>
+                android:text="@string/atualizar_perfil"/>
 
             <Button
                 android:id="@+id/change_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/red"
-                android:text="Alterar Senha"/>
+                android:text="@string/alterar_senha"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

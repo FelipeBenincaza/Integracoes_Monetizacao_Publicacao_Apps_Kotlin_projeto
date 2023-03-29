@@ -10,6 +10,8 @@ import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.Util
 import com.benincaza.projetointegracoeskotlin.ValidateAuthentication
 import com.benincaza.projetointegracoeskotlin.ValidateAuthenticationException
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityCreateAccountBinding
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,9 +26,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class CreateAccount : AppCompatActivity() {
 
-    lateinit var edtEmail: EditText
-    lateinit var edtPassword: EditText
-    lateinit var edtConfirmPassword: EditText
+    private lateinit var binding: ActivityCreateAccountBinding
+
     lateinit var createAccountInputArray: Array<EditText>
 
     val Req_Code:Int=123456;
@@ -41,11 +42,7 @@ class CreateAccount : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         firebaseAuth = FirebaseAuth.getInstance()
 
-        edtEmail = findViewById<EditText>(R.id.edt_email)
-        edtPassword = findViewById<EditText>(R.id.edt_password)
-        edtConfirmPassword = findViewById<EditText>(R.id.edt_confirm_password)
-
-        createAccountInputArray = arrayOf(edtEmail, edtPassword, edtConfirmPassword)
+        createAccountInputArray = arrayOf(binding.edtEmail, binding.edtPassword, binding.edtConfirmPassword)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -54,17 +51,17 @@ class CreateAccount : AppCompatActivity() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        findViewById<View>(R.id.txt_login_view).setOnClickListener{
+        binding.txtLoginView.setOnClickListener{
             val activity = Intent(this, LoginScreen::class.java)
             startActivity(activity)
         }
 
-        findViewById<View>(R.id.btn_signin).setOnClickListener {
+        binding.btnSignin.setOnClickListener {
             Util.showToast(this, getString(R.string.registro_com_google))
             signInGoogle()
         }
 
-        findViewById<View>(R.id.btn_create_account).setOnClickListener {
+        binding.btnCreateAccount.setOnClickListener {
             signIn()
         }
     }
@@ -110,11 +107,11 @@ class CreateAccount : AppCompatActivity() {
     private fun signIn() {
         try {
             val valida = ValidateAuthentication(this)
-            valida.validaCampoEmail(edtEmail)
-            valida.validaCampoRegisterSenha(edtPassword, edtConfirmPassword)
+            valida.validaCampoEmail(binding.edtEmail)
+            valida.validaCampoRegisterSenha(binding.edtPassword, binding.edtConfirmPassword)
 
-            val userEmail = edtEmail.text.toString().trim()
-            val userPassword = edtPassword.text.toString().trim()
+            val userEmail = binding.edtEmail.text.toString().trim()
+            val userPassword = binding.edtPassword.text.toString().trim()
 
             firebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener { task ->

@@ -17,6 +17,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.benincaza.projetointegracoeskotlin.FormReplacePassword
 import com.benincaza.projetointegracoeskotlin.R
+import com.benincaza.projetointegracoeskotlin.Util
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityCreateAccountBinding
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityProfileBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -31,6 +34,7 @@ import java.net.URL
 
 class ProfileActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityProfileBinding
     lateinit var mGoogleSignClient: GoogleSignInClient
 
     private val PERMISSION_REQUEST_CAMERA = 0
@@ -65,41 +69,41 @@ class ProfileActivity : AppCompatActivity() {
             if(displayName.toString() != "") {
                 val nameSplit = displayName.toString().split(" ")
                 if(nameSplit.size > 1){
-                    findViewById<EditText>(R.id.name).setText(nameSplit[0])
-                    findViewById<EditText>(R.id.last_name).setText(nameSplit[1])
+                    binding.name.setText(nameSplit[0])
+                    binding.lastName.setText(nameSplit[1])
                 }else{
-                    findViewById<EditText>(R.id.name).setText(displayName.toString())
+                    binding.name.setText(displayName.toString())
                 }
             }
-            findViewById<EditText>(R.id.email).setText(email)
+            binding.email.setText(email)
 
             if(photoUrl != null){
                 Thread{
                     val file = saveLocalFile(photoUrl.toString())
                     runOnUiThread{
                         val bitmap = BitmapFactory.decodeFile(file.path)
-                        findViewById<ImageView>(R.id.profile_image).setImageBitmap(bitmap)
+                        binding.profileImage.setImageBitmap(bitmap)
                     }
                 }.start()
             }
         }
 
-        findViewById<View>(R.id.update_profile).setOnClickListener{
+        binding.updateProfile.setOnClickListener{
             saveProfile()
         }
 
-        findViewById<View>(R.id.home).setOnClickListener{
+        binding.home.setOnClickListener{
             val activity = Intent(this, MainActivity::class.java);
             startActivity(activity)
             finish()
         }
 
-        findViewById<View>(R.id.fab_files).setOnClickListener{
+        binding.fabFiles.setOnClickListener{
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, REQUEST_IMAGE_GALLERY)
         }
 
-        findViewById<View>(R.id.fab_camera).setOnClickListener{
+        binding.fabCamera.setOnClickListener{
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
         }
@@ -111,7 +115,7 @@ class ProfileActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
         }
 
-        findViewById<View>(R.id.logout).setOnClickListener{
+        binding.logout.setOnClickListener{
             firebaseAuth.signOut();
             mGoogleSignClient.signOut();
 
@@ -120,14 +124,14 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        findViewById<View>(R.id.change_password).setOnClickListener {
+        binding.changePassword.setOnClickListener {
             FormReplacePassword(this).show() { eventoCriado ->
                 val user = firebaseAuth.currentUser
 
                 user!!.updatePassword(eventoCriado.password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(this, getString(R.string.senha_alterada), Toast.LENGTH_SHORT).show()
+                            Util.showToast(this, getString(R.string.senha_alterada))
                         }
                     }
             }
@@ -163,8 +167,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun saveProfile(){
-        val name = findViewById<EditText>(R.id.name).text.toString()
-        val last_name = findViewById<EditText>(R.id.last_name).text.toString()
+        val name = binding.name.text.toString()
+        val last_name = binding.lastName.text.toString()
 
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
@@ -179,7 +183,7 @@ class ProfileActivity : AppCompatActivity() {
         val uploadTask = imageRef.putBytes(data)
 
         uploadTask.addOnFailureListener {
-            Toast.makeText(this, "Falha ao salvar imagem", Toast.LENGTH_SHORT).show()
+            Util.showToast(this, getString(R.string.falha_salvar_imagem))
         }.addOnSuccessListener { taskSnapshot ->
             imageRef.downloadUrl.addOnSuccessListener { uri ->
                 val profileUpdates = userProfileChangeRequest {
@@ -189,9 +193,9 @@ class ProfileActivity : AppCompatActivity() {
 
                 user!!.updateProfile(profileUpdates).addOnCompleteListener{ task ->
                     if(task.isSuccessful){
-                        Toast.makeText(this, "Perfil atualizado com sucesso", Toast.LENGTH_SHORT).show()
+                        Util.showToast(this, getString(R.string.perfil_atualizado_sucesso))
                     }else{
-                        Toast.makeText(this, "Falha ao atualizar perfil", Toast.LENGTH_SHORT).show()
+                        Util.showToast(this, getString(R.string.falha_atualizar_perfil))
                     }
                 }
             }
@@ -207,15 +211,15 @@ class ProfileActivity : AppCompatActivity() {
 
         if(requestCode == PERMISSION_REQUEST_CAMERA){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Permissão de camera concedida", Toast.LENGTH_SHORT).show()
+                Util.showToast(this, getString(R.string.permissao_camera_concedida))
             }else{
-                Toast.makeText(this, "Permissão de camera negada", Toast.LENGTH_SHORT).show()
+                Util.showToast(this, getString(R.string.permissao_camera_negada))
             }
         }else if(requestCode == PERMISSION_REQUEST_READ_EXTERNAL_STORAGE){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Permissão de galeria concedida", Toast.LENGTH_SHORT).show()
+                Util.showToast(this, getString(R.string.permissao_galeria_concedida))
             }else{
-                Toast.makeText(this, "Permissão de galeria negada", Toast.LENGTH_SHORT).show()
+                Util.showToast(this, getString(R.string.permissao_galeria_negada))
             }
         }
     }
@@ -229,12 +233,12 @@ class ProfileActivity : AppCompatActivity() {
                     val selectedImage: Uri? = data?.data
                     val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
 
-                    findViewById<ImageView>(R.id.profile_image).setImageBitmap(imageBitmap)
+                    binding.profileImage.setImageBitmap(imageBitmap)
                     this._image = imageBitmap
                 }
                 REQUEST_IMAGE_CAPTURE -> {
                     val imageCaptured =  data?.extras?.get("data") as Bitmap
-                    findViewById<ImageView>(R.id.profile_image).setImageBitmap(imageCaptured)
+                    binding.profileImage.setImageBitmap(imageCaptured)
                     this._image = imageCaptured
                 }
             }
