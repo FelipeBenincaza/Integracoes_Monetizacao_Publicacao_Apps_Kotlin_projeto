@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.BibliotecaActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarLayout"
@@ -17,7 +17,7 @@
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="Home">
+            app:title="@string/minha_biblioteca">
 
             <ImageView
                 android:id="@+id/logout"
@@ -27,10 +27,10 @@
                 android:layout_gravity="right"
                 android:layout_marginEnd="16dp"/>
             <ImageView
-                android:id="@+id/profile"
+                android:id="@+id/home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/outline_account_circle_24"
+                android:src="@drawable/outline_house_24"
                 android:layout_gravity="right"
                 android:layout_marginEnd="16dp"/>
         </androidx.appcompat.widget.Toolbar>
@@ -41,22 +41,21 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:id="@+id/fragment_container"
-            android:layout_marginTop="60dp"/>
-
         <TextView
-            android:id="@+id/txt_biblioteca"
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/minha_biblioteca"
+            android:text="Livros"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="26dp"
-            android:layout_below="@+id/fragment_container"/>
+            android:textSize="26dp"/>
+
+        <ListView
+            android:id="@+id/listViewTasks"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView"
+            android:scrollbars="vertical"/>
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -69,4 +68,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/add_48"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

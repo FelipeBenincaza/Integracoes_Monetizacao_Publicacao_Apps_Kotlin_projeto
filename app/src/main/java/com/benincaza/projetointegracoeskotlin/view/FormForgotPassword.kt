@@ -1,8 +1,12 @@
-package com.benincaza.projetointegracoeskotlin
+package com.benincaza.projetointegracoeskotlin.view
 
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
+import com.benincaza.projetointegracoeskotlin.EventoForgotPassword
+import com.benincaza.projetointegracoeskotlin.Util
+import com.benincaza.projetointegracoeskotlin.ValidateAuthentication
+import com.benincaza.projetointegracoeskotlin.ValidateAuthenticationException
 import com.benincaza.projetointegracoeskotlin.databinding.FormForgotPasswordBinding
 
 class FormForgotPassword(private val context: Context) {

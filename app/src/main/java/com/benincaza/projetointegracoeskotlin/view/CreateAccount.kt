@@ -12,6 +12,7 @@ import com.benincaza.projetointegracoeskotlin.ValidateAuthentication
 import com.benincaza.projetointegracoeskotlin.ValidateAuthenticationException
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityCreateAccountBinding
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosBinding
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityLoginScreenBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -36,7 +37,8 @@ class CreateAccount : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_account)
+        binding = ActivityCreateAccountBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
         FirebaseApp.initializeApp(this)

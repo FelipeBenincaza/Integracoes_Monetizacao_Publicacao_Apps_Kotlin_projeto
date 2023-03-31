@@ -57,4 +57,6 @@
     <string name="senha_profile">Senha</string>
     <string name="confirmar_senha_profile">Confirmar Senha</string>
     <string name="trocar_senha">Trocar Senha</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
