@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
-    val listItems = ArrayList<String>()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -61,18 +60,10 @@ class MainActivity : AppCompatActivity() {
 
         if(firebaseUser != null){
             val displayName = firebaseUser.displayName
-            val email = firebaseUser.email
             val photoUrl = firebaseUser.photoUrl
 
             if(displayName.toString() != "") {
-                val nameSplit = displayName.toString().split(" ")
-                if(nameSplit.size > 1){
-                    binding.txtNome.setText(nameSplit[0])
-                    binding.txtSobrenome.setText(nameSplit[1])
-                }else{
-                    binding.txtNome.setText(displayName.toString())
-                    binding.txtSobrenome.isVisible = false
-                }
+                binding.txtNome.text = displayName.toString()
             }
             /*binding.email.setText(email)*/
 
@@ -99,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(activity)
         }
 
-        binding.txtBiblioteca.setOnClickListener{
+        binding.btnBiblioteca.setOnClickListener{
             val activity = Intent(this, BibliotecaActivity::class.java);
             startActivity(activity)
         }
@@ -108,11 +99,19 @@ class MainActivity : AppCompatActivity() {
             val ctx = this@MainActivity;
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                listItems.clear()
+                var lido = 0
+                var naoLido = 0
 
                 for(child in dataSnapshot.children){
-                    listItems.add(child.child("titulo").value.toString())
+                    if (child.child("status").value.toString() == "Lido")
+                        lido++
+                    else
+                        naoLido++
                 }
+
+                binding.txtTotalLivros.text = "Total de Livros: ${dataSnapshot.children.toList().size}"
+                binding.txtLivrosLido.text = "Lidos: ${lido}"
+                binding.txtLivrosNaoLido.text = "Não lidos: ${naoLido}"
 
             }
 

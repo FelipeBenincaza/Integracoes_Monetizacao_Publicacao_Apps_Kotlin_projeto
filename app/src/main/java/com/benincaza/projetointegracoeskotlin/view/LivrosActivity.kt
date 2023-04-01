@@ -85,7 +85,7 @@ class LivrosActivity : AppCompatActivity() {
                 if(!snapshot.exists()) return
 
                 binding.edtTitulo.setText(snapshot.child("titulo").value.toString())
-                binding.edtGenero.setText(snapshot.child("descricao").value.toString())
+                binding.edtGenero.setText(snapshot.child("genero").value.toString())
                 binding.edtPaginas.setText(snapshot.child("paginas").value.toString())
                 binding.edtData.setText(snapshot.child("data").value.toString())
                 if (snapshot.child("status").value.toString().equals("Lido")){
@@ -111,7 +111,7 @@ class LivrosActivity : AppCompatActivity() {
                     val task = snapshot.value as HashMap<String, String>
 
                     task["titulo"] = binding.edtTitulo.text.toString()
-                    task["descricao"] = binding.edtGenero.text.toString()
+                    task["genero"] = binding.edtGenero.text.toString()
                     task["paginas"] = binding.edtPaginas.text.toString()
                     task["data"] = binding.edtData.text.toString()
                     task["status"] = status
@@ -127,7 +127,7 @@ class LivrosActivity : AppCompatActivity() {
         }else{
             val livro =  hashMapOf(
                 "titulo" to binding.edtTitulo.text.toString(),
-                "descricao" to binding.edtGenero.text.toString(),
+                "genero" to binding.edtGenero.text.toString(),
                 "paginas" to binding.edtPaginas.text.toString(),
                 "data" to binding.edtData.text.toString(),
                 "status" to status,
@@ -138,7 +138,7 @@ class LivrosActivity : AppCompatActivity() {
 
             Util.showToast(this, getString(R.string.livro_criado_sucesso))
 
-            Intent(this, MainActivity::class.java).also {
+            Intent(this, BibliotecaActivity::class.java).also {
                 startActivity(it)
             }
         }

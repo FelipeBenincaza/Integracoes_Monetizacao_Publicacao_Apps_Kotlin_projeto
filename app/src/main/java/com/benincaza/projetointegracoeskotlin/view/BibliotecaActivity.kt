@@ -7,8 +7,10 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.benincaza.projetointegracoeskotlin.R
+import com.benincaza.projetointegracoeskotlin.adapter.LivrosAdapter
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityBibliotecaBinding
 import com.benincaza.projetointegracoeskotlin.fragments.WeatherFragments
+import com.benincaza.projetointegracoeskotlin.model.Livros
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,7 +27,7 @@ class BibliotecaActivity : AppCompatActivity() {
 
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
-    val listItems = ArrayList<String>()
+    val listItems = ArrayList<Livros>()
 
     private lateinit var binding: ActivityBibliotecaBinding
 
@@ -48,7 +50,7 @@ class BibliotecaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
+        val adapter = LivrosAdapter(this, listItems)
         val listView = binding.listViewTasks
         listView.adapter = adapter
 
@@ -78,7 +80,12 @@ class BibliotecaActivity : AppCompatActivity() {
                 listItems.clear()
 
                 for(child in dataSnapshot.children){
-                    listItems.add(child.child("titulo").value.toString())
+                    val status = child.child("titulo").value.toString().equals("Lido")
+                    listItems.add(Livros(child.child("titulo").value.toString(),
+                        child.child("genero").value.toString(),
+                        child.child("paginas").value.toString(),
+                        child.child("key").value.toString(),
+                        status))
                 }
 
                 adapter.notifyDataSetChanged()
