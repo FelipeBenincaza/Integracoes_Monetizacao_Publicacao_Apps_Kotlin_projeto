@@ -61,4 +61,13 @@
     <string name="preferencia_de_generos">Préférence de genre</string>
     <string name="erro_carregar_livros">Erreur lors du chargement de la liste de livres</string>
     <string name="total_livros">Nombre total de livres</string>
+
+    <string name="perfil_criado_sucesso">Profil créé avec succès !</string>
+    <string name="erro_carrega_perfil">Erreur lors du chargement du profil</string>
+    <string name="erro_atualizar_livro">Erreur lors de la mise à jour du livre</string>
+    <string name="livro_atualizado_suceso">Livre mis à jour avec succès</string>
+    <string name="todos">Tous</string>
+    <string name="todos_livros">Tous les livres</string>
+    <string name="livros_lidos">Lire des livres</string>
+    <string name="livros_nao_lidos">Livres non lus</string>
 </resources>

@@ -61,4 +61,12 @@
     <string name="preferencia_de_generos">Gender preference</string>
     <string name="erro_carregar_livros">Error loading book list</string>
     <string name="total_livros">Total of books</string>
+    <string name="perfil_criado_sucesso">Profile successfully created!</string>
+    <string name="erro_carrega_perfil">Error loading profile</string>
+    <string name="erro_atualizar_livro">Error updating book</string>
+    <string name="livro_atualizado_suceso">Successfully updated book</string>
+    <string name="todos">All</string>
+    <string name="todos_livros">All the books</string>
+    <string name="livros_lidos">Read books</string>
+    <string name="livros_nao_lidos">Unread books</string>
 </resources>
