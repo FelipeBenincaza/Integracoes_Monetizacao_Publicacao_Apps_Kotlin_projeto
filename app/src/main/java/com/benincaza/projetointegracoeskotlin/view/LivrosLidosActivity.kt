@@ -3,28 +3,31 @@ package com.benincaza.projetointegracoeskotlin.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.Util
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityBibliotecaBinding
+import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosLidosBinding
 import com.benincaza.projetointegracoeskotlin.fragments.ListaLivrosFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 
-class BibliotecaActivity : AppCompatActivity() {
+class LivrosLidosActivity : AppCompatActivity() {
 
     lateinit var mGoogleSignClient: GoogleSignInClient
-    private lateinit var binding: ActivityBibliotecaBinding
+    private lateinit var binding: ActivityLivrosLidosBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityBibliotecaBinding.inflate(layoutInflater)
+        binding = ActivityLivrosLidosBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        val bundle = bundleOf("tipo_lista" to "todos")
+        val bundle = bundleOf("tipo_lista" to "Lido")
         val fragment = ListaLivrosFragment()
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
@@ -55,15 +58,17 @@ class BibliotecaActivity : AppCompatActivity() {
             startActivity(activity)
         }
 
+        binding.bottomNavigation.getMenu().findItem(R.id.nav_lidos).isChecked = true
+
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_all -> {
+                    val activity = Intent(this, BibliotecaActivity::class.java);
+                    startActivity(activity)
+                    finish()
                     true
                 }
                 R.id.nav_lidos -> {
-                    val activity = Intent(this, LivrosLidosActivity::class.java);
-                    startActivity(activity)
-                    finish()
                     true
                 }
                 R.id.nav_nao_lidos -> {

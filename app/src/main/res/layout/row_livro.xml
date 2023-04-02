@@ -10,7 +10,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:src="@drawable/outline_house_24"
+        android:src="@drawable/book_24"
         android:background="@drawable/circle_shape"
         android:id="@+id/img_capa"
         android:contentDescription="@string/app_name" />

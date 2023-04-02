@@ -69,7 +69,7 @@
                 android:id="@+id/edt_paginas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="1"
+                android:inputType="number"
                 android:hint="@string/numero_de_paginas" />
 
         </com.google.android.material.textfield.TextInputLayout>

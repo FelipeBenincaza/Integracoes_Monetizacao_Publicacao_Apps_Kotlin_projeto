@@ -12,7 +12,9 @@ import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.adapter.LivrosAdapter
 import com.benincaza.projetointegracoeskotlin.databinding.FragmentListaLivrosBinding
 import com.benincaza.projetointegracoeskotlin.model.Livros
+import com.benincaza.projetointegracoeskotlin.view.BibliotecaActivity
 import com.benincaza.projetointegracoeskotlin.view.LivrosActivity
+import com.benincaza.projetointegracoeskotlin.view.NaoLidosActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -37,6 +39,8 @@ class ListaLivrosFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentListaLivrosBinding.inflate(inflater, container, false)
 
+        val tipoLista = arguments?.getString("tipo_lista")
+
         //(activity as BibliotecaActivity?)!!
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -56,13 +60,26 @@ class ListaLivrosFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 listItems.clear()
 
-                for(child in dataSnapshot.children){
-                    val status = child.child("titulo").value.toString().equals("Lido")
-                    listItems.add(Livros(child.child("titulo").value.toString(),
-                        child.child("genero").value.toString(),
-                        child.child("paginas").value.toString(),
-                        child.child("key").value.toString(),
-                        status))
+                if (tipoLista === "todos"){
+                    for(child in dataSnapshot.children){
+                        val status = child.child("status").value.toString().equals("Lido")
+                        listItems.add(Livros(child.child("titulo").value.toString(),
+                            child.child("genero").value.toString(),
+                            child.child("paginas").value.toString(),
+                            child.child("key").value.toString(),
+                            status))
+                    }
+                } else {
+                    for(child in dataSnapshot.children){
+                        if (child.child("status").value.toString() == tipoLista){
+                            val status = child.child("status").value.toString() ==" Lido"
+                            listItems.add(Livros(child.child("titulo").value.toString(),
+                                child.child("genero").value.toString(),
+                                child.child("paginas").value.toString(),
+                                child.child("key").value.toString(),
+                                status))
+                        }
+                    }
                 }
 
                 adapter.notifyDataSetChanged()

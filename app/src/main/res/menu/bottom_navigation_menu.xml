@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_all"
+        android:title="@string/todos"
+        android:enabled="true"
+        android:icon="@drawable/book_24"/>
+    <item
+        android:id="@+id/nav_lidos"
+        android:title="@string/lido"
+        android:enabled="true"
+        android:icon="@drawable/check_lido_24"/>
+    <item
+        android:id="@+id/nav_nao_lidos"
+        android:title="@string/nao_lido"
+        android:enabled="true"
+        android:icon="@drawable/check_nao_lido_24"/>
+</menu>

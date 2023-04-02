@@ -20,6 +20,12 @@
         android:theme="@style/Theme.ProjetoIntegracoesKotlin"
         tools:targetApi="31">
         <activity
+            android:name=".view.NaoLidosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.LivrosLidosActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.BibliotecaActivity"
             android:exported="false" />
         <activity

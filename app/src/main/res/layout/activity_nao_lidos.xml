@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.BibliotecaActivity">
+    tools:context=".view.NaoLidosActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarLayout"
@@ -46,7 +46,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/todos_livros"
+            android:text="@string/livros_nao_lidos"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="26dp"/>
