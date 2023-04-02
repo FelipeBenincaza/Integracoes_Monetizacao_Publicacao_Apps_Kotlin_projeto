@@ -8,6 +8,8 @@ import androidx.appcompat.app.AlertDialog
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.adapter.LivrosAdapter
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityBibliotecaBinding
+import com.benincaza.projetointegracoeskotlin.fragments.ListaLivrosFragment
+import com.benincaza.projetointegracoeskotlin.fragments.WeatherFragments
 import com.benincaza.projetointegracoeskotlin.model.Livros
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -22,11 +24,6 @@ import com.google.firebase.database.ValueEventListener
 class BibliotecaActivity : AppCompatActivity() {
 
     lateinit var mGoogleSignClient: GoogleSignInClient
-
-    val uid = FirebaseAuth.getInstance().currentUser?.uid
-    val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
-    val listItems = ArrayList<Livros>()
-
     private lateinit var binding: ActivityBibliotecaBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +32,8 @@ class BibliotecaActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ListaLivrosFragment()).commit()
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -42,15 +41,6 @@ class BibliotecaActivity : AppCompatActivity() {
         mGoogleSignClient = GoogleSignIn.getClient(this, gso)
 
         val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-        val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
-        if(firebaseUser == null){
-            val intent = Intent(this, LoginScreen::class.java)
-            startActivity(intent)
-        }
-
-        val adapter = LivrosAdapter(this, listItems)
-        val listView = binding.listViewTasks
-        listView.adapter = adapter
 
         binding.logout.setOnClickListener{
             firebaseAuth.signOut()
@@ -68,57 +58,6 @@ class BibliotecaActivity : AppCompatActivity() {
         binding.fabAddTask.setOnClickListener{
             val activity = Intent(this, LivrosActivity::class.java);
             startActivity(activity)
-
         }
-
-        ref.addValueEventListener(object: ValueEventListener {
-            val ctx = this@BibliotecaActivity;
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                listItems.clear()
-
-                for(child in dataSnapshot.children){
-                    val status = child.child("titulo").value.toString().equals("Lido")
-                    listItems.add(Livros(child.child("titulo").value.toString(),
-                        child.child("genero").value.toString(),
-                        child.child("paginas").value.toString(),
-                        child.child("key").value.toString(),
-                        status))
-                }
-
-                adapter.notifyDataSetChanged()
-
-                listView.setOnItemLongClickListener { parent, view, position, id ->
-                    val itemId =  dataSnapshot.children.toList()[position].key
-
-                    if(itemId != null){
-                        AlertDialog.Builder(ctx)
-                            .setTitle("Deletar tarefa")
-                            .setMessage("Deseja deletar a tarefa?")
-                            .setPositiveButton("Sim"){ dialog, which ->
-                                ref.child(itemId).removeValue()
-                                Toast.makeText(ctx, "Tarefa deletada com sucesso", Toast.LENGTH_SHORT).show()
-                            }
-                            .setNegativeButton("Não"){ dialog, which ->
-                                dialog.dismiss()
-                            }
-                            .show()
-                    }
-
-                    true
-                }
-                listView.setOnItemClickListener { parent, view, position, id ->
-                    val itemId =  dataSnapshot.children.toList()[position].key
-
-                    val activity = Intent(ctx, LivrosActivity::class.java)
-                    activity.putExtra("id", itemId)
-                    startActivity(activity)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(ctx, "Erro ao carregar tarefas", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 }
