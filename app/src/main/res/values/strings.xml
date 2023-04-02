@@ -21,7 +21,6 @@
     <string name="campo_senha_vazio">Preencha o campo da senha.</string>
     <string name="email_enviado_suceso">Email enviado com sucesso!</string>
 
-    <string name="descricao_task_field">Descrição</string>
     <string name="titulo_task_field">Título</string>
     <string name="btn_select_date">Data</string>
     <string name="btn_select_hour">Hora</string>
@@ -57,6 +56,12 @@
     <string name="senha_profile">Senha</string>
     <string name="confirmar_senha_profile">Confirmar Senha</string>
     <string name="trocar_senha">Trocar Senha</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cadastrar_livro">Cadastrar Livro</string>
+    <string name="preferencia_de_generos">Preferência de gêneros</string>
+    <string name="erro_carregar_livros">Erro ao carregar lista de livros</string>
+    <string name="total_livros">Total de livros</string>
+    <string name="perfil_criado_sucesso">Perfil criado com sucesso!</string>
+    <string name="erro_carrega_perfil">Erro ao carregar perfil</string>
+    <string name="erro_atualizar_livro">Erro ao atualizar livro</string>
+    <string name="livro_atualizado_suceso">Livro atualizado com sucesso</string>
 </resources>

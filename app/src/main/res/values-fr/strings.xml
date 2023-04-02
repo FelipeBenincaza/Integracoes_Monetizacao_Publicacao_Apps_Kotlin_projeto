@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Liste des livres</string>
+    <string name="registro_com_google">Inscription auprès de Google</string>
+    <string name="login_com_google">Connectez-vous avec Google</string>
+
+    <string name="user_created_success">Utilisateur créé avec succès. Vérifiez votre boîte e-mail.</string>
+    <string name="email_registered">E-mail déjà enregistré.</string>
+    <string name="erro_create_user">Erreur lors de la création de l utilisateur.</string>
+    <string name="password_inadequate_length">Les mots de passe sont les mêmes mais de longueur insuffisante.</string>
+    <string name="passwords_not_match">Les mots de passe ne correspondent pas.</string>
+    <string name="fill_all_fields">Remplissez tous les champs.</string>
+    <string name="email_success_sent">E-mail envoyé avec succès.</string>
+    <string name="login_success">Connexion réussie.</string>
+    <string name="login_failed">Échec de la connexion.</string>
+    <string name="check_your_email">Vérifiez votre messagerie.</string>
+    <string name="nao_tem_conta">Vous n avez pas de compte? Enregistrer</string>
+    <string name="forgot_my_password">j ai oublié mon mot de passe</string>
+    <string name="entrar_com_google">Connectez-vous avec Google</string>
+    <string name="senha_alterada">Le mot de passe a été changé avec succès!</string>
+    <string name="campo_email_vazio">Remplissez le champ e-mail.</string>
+    <string name="campo_senha_vazio">Remplissez le champ du mot de passe.</string>
+    <string name="email_enviado_suceso">E-mail envoyé avec succès !</string>
+
+    <string name="titulo_task_field">Titre</string>
+    <string name="btn_select_date">Date</string>
+    <string name="btn_select_hour">Heure</string>
+    <string name="salvar">Sauver</string>
+    <string name="email_invalido">Email invalide.</string>
+    <string name="titulo_do_livro">Titre du livre</string>
+    <string name="generos">Genres</string>
+    <string name="livro_criado_sucesso">Livre créé avec succès !</string>
+    <string name="numero_de_paginas">Nombre de pages</string>
+    <string name="permissao_galeria_negada">Autorisation de la galerie refusée</string>
+    <string name="permissao_galeria_concedida">Autorisation de la galerie accordée</string>
+    <string name="permissao_camera_negada">Autorisation de caméra refusée</string>
+    <string name="permissao_camera_concedida">Autorisation de caméra accordée</string>
+    <string name="falha_atualizar_perfil">Échec de la mise à jour du profil</string>
+    <string name="perfil_atualizado_sucesso">Mise à jour du profil réussie</string>
+    <string name="falha_salvar_imagem">Échec de l enregistrement de l image</string>
+    <string name="registrar">Enregistrer</string>
+    <string name="email">E-mail*</string>
+    <string name="senha">Mot de passe*</string>
+    <string name="confirmar_senha">Confirmez le mot de passe*</string>
+    <string name="entrar">Entrer</string>
+    <string name="registrar_com_google">S inscrire auprès de Google</string>
+    <string name="ler_ate">lire jusqu à</string>
+    <string name="nao_lido">Pas lu</string>
+    <string name="lido">Lire</string>
+    <string name="minha_biblioteca">Ma bibliothèque</string>
+    <string name="email_profile">E-mail</string>
+    <string name="nome">Nom</string>
+    <string name="sobrenome">Nom de famille</string>
+    <string name="atualizar_perfil">Mettre à jour le profil</string>
+    <string name="alterar_senha">Changer le mot de passe</string>
+    <string name="enviar">Envoyer</string>
+    <string name="senha_profile">Mot de passe</string>
+    <string name="confirmar_senha_profile">Confirmez le mot de passe</string>
+    <string name="trocar_senha">Changer le mot de passe</string>
+    <string name="cadastrar_livro">S inscrire Réserver</string>
+    <string name="preferencia_de_generos">Préférence de genre</string>
+    <string name="erro_carregar_livros">Erreur lors du chargement de la liste de livres</string>
+    <string name="total_livros">Nombre total de livres</string>
+</resources>

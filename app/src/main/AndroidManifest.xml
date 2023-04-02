@@ -25,7 +25,7 @@
         <activity
             android:name=".view.LivrosActivity"
             android:exported="false"
-            android:label="Cadastrar Livro"
+            android:label="@string/cadastrar_livro"
             android:parentActivityName=".view.BibliotecaActivity" />
         <activity
             android:name=".view.ProfileActivity"

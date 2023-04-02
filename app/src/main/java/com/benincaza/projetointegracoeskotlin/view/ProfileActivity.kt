@@ -9,23 +9,28 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.Util
-import com.benincaza.projetointegracoeskotlin.databinding.ActivityMainBinding
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityProfileBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.HashMap
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -36,6 +41,10 @@ class ProfileActivity : AppCompatActivity() {
     private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 1
 
     var _image: Bitmap? = null
+
+    val _uid = FirebaseAuth.getInstance().currentUser?.uid
+    val db_ref = FirebaseDatabase.getInstance().getReference("/users/$_uid/perfil")
+    var perfilId: String = ""
 
     companion object{
         private const val REQUEST_IMAGE_GALLERY = 1
@@ -65,13 +74,13 @@ class ProfileActivity : AppCompatActivity() {
             if(displayName.toString() != "") {
                 val nameSplit = displayName.toString().split(" ")
                 if(nameSplit.size > 1){
-                    binding.name.setText(nameSplit[0])
-                    binding.lastName.setText(nameSplit[1])
+                    binding.edtName.setText(nameSplit[0])
+                    binding.edtLastName.setText(nameSplit[1])
                 }else{
-                    binding.name.setText(displayName.toString())
+                    binding.edtName.setText(displayName.toString())
                 }
             }
-            binding.email.setText(email)
+            binding.edtEmail.setText(email)
 
             if(photoUrl != null){
                 Thread{
@@ -84,7 +93,23 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-        binding.updateProfile.setOnClickListener{
+        db_ref.addValueEventListener(object: ValueEventListener {
+            val ctx = this@ProfileActivity;
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                perfilId = dataSnapshot.children.toList()[0].key.toString()
+                if (perfilId !== ""){
+                    val child = dataSnapshot.children.toList()[0]
+                    binding.edtPreferenciaGenero.setText(child.child("preferencia").value.toString())
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(ctx, getString(R.string.erro_carrega_perfil), Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        binding.btnUpdateProfile.setOnClickListener{
             saveProfile()
         }
 
@@ -120,7 +145,7 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.changePassword.setOnClickListener {
+        binding.btnChangePassword.setOnClickListener {
             FormReplacePassword(this).show() { eventoCriado ->
                 val user = firebaseAuth.currentUser
 
@@ -163,8 +188,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun saveProfile(){
-        val name = binding.name.text.toString()
-        val last_name = binding.lastName.text.toString()
+        val name = binding.edtName.text.toString()
+        val last_name = binding.edtLastName.text.toString()
 
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
@@ -194,7 +219,48 @@ class ProfileActivity : AppCompatActivity() {
                         Util.showToast(this, getString(R.string.falha_atualizar_perfil))
                     }
                 }
+
+                createUpdatePerfil(Uri.parse(uri.toString()).toString())
             }
+        }
+    }
+
+    fun createUpdatePerfil(uri : String){
+        if(perfilId !== ""){
+            val ref = FirebaseDatabase.getInstance().getReference("/users/$_uid/perfil/$perfilId")
+
+            ref.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(!snapshot.exists()) return
+                    val task = snapshot.value as HashMap<String, String>
+
+                    task["email"] = binding.edtEmail.text.toString()
+                    task["nome"] = binding.edtName.text.toString()
+                    task["sobrenome"] = binding.edtLastName.text.toString()
+                    task["preferencia"] = binding.edtPreferenciaGenero.text.toString()
+                    task["photoPerfil"] = uri
+
+                    ref.setValue(task)
+                    Util.showToast(this@ProfileActivity, getString(R.string.livro_atualizado_suceso))
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Util.showToast(this@ProfileActivity, getString(R.string.erro_atualizar_livro))
+                }
+            })
+        }else{
+            val perfil =  hashMapOf(
+                "email" to binding.edtEmail.text.toString(),
+                "nome" to binding.edtName.text.toString(),
+                "sobrenome" to binding.edtLastName.text.toString(),
+                "preferencia" to binding.edtPreferenciaGenero.text.toString(),
+                "photoPerfil" to uri
+            )
+
+            val novoElemento = db_ref.push()
+            novoElemento.setValue(perfil)
+
+            Util.showToast(this, getString(R.string.perfil_criado_sucesso))
         }
     }
 

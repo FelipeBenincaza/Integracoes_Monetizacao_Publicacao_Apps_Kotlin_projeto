@@ -93,7 +93,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/email"
+                android:id="@+id/edt_email"
                 android:hint="@string/email_profile"
                 android:inputType="textEmailAddress"
                 android:enabled="false"/>
@@ -101,25 +101,32 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/name"
+                android:id="@+id/edt_name"
                 android:hint="@string/nome"
                 android:inputType="textPersonName"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/last_name"
+                android:id="@+id/edt_last_name"
                 android:hint="@string/sobrenome"
                 android:inputType="textPersonName"/>
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edt_preferencia_genero"
+                android:hint="@string/preferencia_de_generos"
+                android:inputType="textPersonName"/>
+
             <Button
-                android:id="@+id/update_profile"
+                android:id="@+id/btn_update_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/atualizar_perfil"/>
 
             <Button
-                android:id="@+id/change_password"
+                android:id="@+id/btn_change_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/red"

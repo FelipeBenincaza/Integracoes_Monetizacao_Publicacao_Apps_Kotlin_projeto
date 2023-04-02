@@ -3,13 +3,11 @@ package com.benincaza.projetointegracoeskotlin.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.adapter.LivrosAdapter
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityBibliotecaBinding
-import com.benincaza.projetointegracoeskotlin.fragments.WeatherFragments
 import com.benincaza.projetointegracoeskotlin.model.Livros
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

@@ -1,15 +1,10 @@
 package com.benincaza.projetointegracoeskotlin.view
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityMainBinding
@@ -34,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
+    val ref_perfil = FirebaseDatabase.getInstance().getReference("/users/$uid/perfil")
+    var perfilId: String = ""
 
     private lateinit var binding: ActivityMainBinding
 
@@ -64,8 +61,9 @@ class MainActivity : AppCompatActivity() {
 
             if(displayName.toString() != "") {
                 binding.txtNome.text = displayName.toString()
+            } else{
+                binding.txtNome.isVisible = false
             }
-            /*binding.email.setText(email)*/
 
             if(photoUrl != null){
                 Thread{
@@ -109,14 +107,30 @@ class MainActivity : AppCompatActivity() {
                         naoLido++
                 }
 
-                binding.txtTotalLivros.text = "Total de Livros: ${dataSnapshot.children.toList().size}"
-                binding.txtLivrosLido.text = "Lidos: ${lido}"
-                binding.txtLivrosNaoLido.text = "Não lidos: ${naoLido}"
+                binding.txtTotalLivros.text = getString(R.string.total_livros) + ": ${dataSnapshot.children.toList().size}"
+                binding.txtLivrosLido.text = getString(R.string.lido) + ": ${lido}"
+                binding.txtLivrosNaoLido.text = getString(R.string.nao_lido) + ": ${naoLido}"
 
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(ctx, "Erro ao carregar tarefas", Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctx, getString(R.string.erro_carregar_livros), Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        ref_perfil.addValueEventListener(object: ValueEventListener {
+            val ctx = this@MainActivity;
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                perfilId = dataSnapshot.children.toList()[0].key.toString()
+                if (perfilId !== ""){
+                    val child = dataSnapshot.children.toList()[0]
+                    binding.txtPreferencia.setText("Preferêcias: " + child.child("preferencia").value.toString())
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(ctx, getString(R.string.erro_carrega_perfil), Toast.LENGTH_SHORT).show()
             }
         })
     }

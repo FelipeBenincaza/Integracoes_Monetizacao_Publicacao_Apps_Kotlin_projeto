@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">List of Books</string>
+    <string name="registro_com_google">Registro com Google</string>
+    <string name="login_com_google">Registration with Google</string>
+
+    <string name="user_created_success">User created successfully. Check your email box.</string>
+    <string name="email_registered">E-mail already registered.</string>
+    <string name="erro_create_user">Error creating user.</string>
+    <string name="password_inadequate_length">The passwords are the same but of inadequate length.</string>
+    <string name="passwords_not_match">Passwords do not match.</string>
+    <string name="fill_all_fields">Fill in all fields.</string>
+    <string name="email_success_sent">Email successfully sent.</string>
+    <string name="login_success">Successfully logged in.</string>
+    <string name="login_failed">Login failed.</string>
+    <string name="check_your_email">Check your email.</string>
+    <string name="nao_tem_conta">Dont have an account? Register.</string>
+    <string name="forgot_my_password">I forgot my password</string>
+    <string name="entrar_com_google">Sign in with Google</string>
+    <string name="senha_alterada">Password changed successfully!</string>
+    <string name="campo_email_vazio">Fill in the email field.</string>
+    <string name="campo_senha_vazio">Fill in the password field.</string>
+    <string name="email_enviado_suceso">Email successfully sent!</string>
+
+    <string name="titulo_task_field">Title</string>
+    <string name="btn_select_date">Date</string>
+    <string name="btn_select_hour">Hour</string>
+    <string name="salvar">Save</string>
+    <string name="email_invalido">Invalid email.</string>
+    <string name="titulo_do_livro">Book title</string>
+    <string name="generos">Genres</string>
+    <string name="livro_criado_sucesso">Book created successfully!</string>
+    <string name="numero_de_paginas">Number of pages</string>
+    <string name="permissao_galeria_negada">Gallery permission denied</string>
+    <string name="permissao_galeria_concedida">Gallery permission granted</string>
+    <string name="permissao_camera_negada">Camera permission denied</string>
+    <string name="permissao_camera_concedida">Camera permission granted</string>
+    <string name="falha_atualizar_perfil">Failed to update profile</string>
+    <string name="perfil_atualizado_sucesso">Profile updated successfully</string>
+    <string name="falha_salvar_imagem">Failed to save image</string>
+    <string name="registrar">Register</string>
+    <string name="email">E-mail*</string>
+    <string name="senha">Password*</string>
+    <string name="confirmar_senha">Confirm password*</string>
+    <string name="entrar">Enter</string>
+    <string name="registrar_com_google">Register with Google</string>
+    <string name="ler_ate">Read up to</string>
+    <string name="nao_lido">Not read</string>
+    <string name="lido">Read</string>
+    <string name="minha_biblioteca">My Library</string>
+    <string name="email_profile">E-mail</string>
+    <string name="nome">Name</string>
+    <string name="sobrenome">LastName</string>
+    <string name="atualizar_perfil">Update Profile</string>
+    <string name="alterar_senha">Update password</string>
+    <string name="enviar">Send</string>
+    <string name="senha_profile">Password</string>
+    <string name="confirmar_senha_profile">Confirm password</string>
+    <string name="trocar_senha">Change Password</string>
+    <string name="cadastrar_livro">Register Book</string>
+    <string name="preferencia_de_generos">Gender preference</string>
+    <string name="erro_carregar_livros">Error loading book list</string>
+    <string name="total_livros">Total of books</string>
+</resources>
