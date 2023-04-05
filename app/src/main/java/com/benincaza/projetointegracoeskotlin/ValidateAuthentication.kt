@@ -2,6 +2,7 @@ package com.benincaza.projetointegracoeskotlin
 
 import android.content.Context
 import android.widget.EditText
+import com.benincaza.projetointegracoeskotlin.fragments.DificuldadeSenhaFragment
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -30,7 +31,7 @@ class ValidateAuthentication(val context: Context) {
     }
 
     @Throws(ValidateAuthenticationException::class)
-    fun validaCampoRegisterSenha(password: EditText, confirmPassword: EditText) {
+    fun validaCampoRegisterSenha(password: DificuldadeSenhaFragment, confirmPassword: EditText) {
         if (password.text.toString().trim().isEmpty() && confirmPassword.text.toString().trim().isEmpty())
             throw ValidateAuthenticationException("Preencher os dois campos de senhas.")
 

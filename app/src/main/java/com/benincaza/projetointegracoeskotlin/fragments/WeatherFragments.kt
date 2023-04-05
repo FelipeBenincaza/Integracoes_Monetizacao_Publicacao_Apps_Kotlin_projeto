@@ -24,7 +24,6 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
 
-
 class WeatherFragments : Fragment() {
 
     companion object{

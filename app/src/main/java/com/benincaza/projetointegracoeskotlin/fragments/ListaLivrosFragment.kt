@@ -12,9 +12,7 @@ import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.adapter.LivrosAdapter
 import com.benincaza.projetointegracoeskotlin.databinding.FragmentListaLivrosBinding
 import com.benincaza.projetointegracoeskotlin.model.Livros
-import com.benincaza.projetointegracoeskotlin.view.BibliotecaActivity
 import com.benincaza.projetointegracoeskotlin.view.LivrosActivity
-import com.benincaza.projetointegracoeskotlin.view.NaoLidosActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -23,7 +21,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
 
 class ListaLivrosFragment : Fragment() {
 

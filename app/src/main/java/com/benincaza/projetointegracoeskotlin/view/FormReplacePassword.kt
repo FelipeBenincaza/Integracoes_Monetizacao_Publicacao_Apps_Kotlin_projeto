@@ -3,14 +3,13 @@ package com.benincaza.projetointegracoeskotlin.view
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
-import com.benincaza.projetointegracoeskotlin.EventReplacePassword
-import com.benincaza.projetointegracoeskotlin.Util
-import com.benincaza.projetointegracoeskotlin.ValidateAuthentication
-import com.benincaza.projetointegracoeskotlin.ValidateAuthenticationException
+import com.benincaza.projetointegracoeskotlin.*
 import com.benincaza.projetointegracoeskotlin.databinding.FormReplacePasswordBinding
+import com.benincaza.projetointegracoeskotlin.fragments.DificuldadeSenhaFragment
 
-class FormReplacePassword(private val context: Context) {
+class FormReplacePassword(private val context: ProfileActivity) {
 
+    lateinit var edtPassword: DificuldadeSenhaFragment
     fun show(
         eventoCriado: (eventoCriado: EventReplacePassword) -> Unit
     ) {
@@ -21,6 +20,8 @@ class FormReplacePassword(private val context: Context) {
             .setView(binding.root)
             .show()
 
+        edtPassword = context.supportFragmentManager.findFragmentById(R.id.textInputLayoutPassword) as DificuldadeSenhaFragment
+
         binding.imgClose.setOnClickListener {
             dialog.dismiss()
         }
@@ -28,9 +29,9 @@ class FormReplacePassword(private val context: Context) {
         binding.botaoSalvar.setOnClickListener {
             try {
                 val valida = ValidateAuthentication(context)
-                valida.validaCampoRegisterSenha(binding.password, binding.confirmPassword)
+                valida.validaCampoRegisterSenha(edtPassword, binding.confirmPassword)
 
-                val password = binding.password.text.toString()
+                val password = edtPassword.text.toString()
                 val evento = EventReplacePassword(password)
                 dialog.dismiss()
                 eventoCriado(evento)

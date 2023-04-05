@@ -68,4 +68,8 @@
     <string name="todos_livros">Todos os livros</string>
     <string name="livros_lidos">Livros lidos</string>
     <string name="livros_nao_lidos">Livros não lidos</string>
+    <string name="senha_invalida">Senha inválida</string>
+    <string name="senha_fraca">Senha fraca</string>
+    <string name="senha_media">Senha média</string>
+    <string name="senha_forte">Senha forte</string>
 </resources>

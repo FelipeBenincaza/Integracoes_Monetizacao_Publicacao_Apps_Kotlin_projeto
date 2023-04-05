@@ -122,11 +122,17 @@ class MainActivity : AppCompatActivity() {
             val ctx = this@MainActivity;
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                perfilId = dataSnapshot.children.toList()[0].key.toString()
-                if (perfilId !== ""){
-                    val child = dataSnapshot.children.toList()[0]
-                    binding.txtPreferencia.setText("Preferêcias: " + child.child("preferencia").value.toString())
+                if (dataSnapshot.children.toList().size > 0){
+                    perfilId = dataSnapshot.children.toList()[0].key.toString()
+                    if (perfilId !== ""){
+                        val child = dataSnapshot.children.toList()[0]
+                        binding.txtPreferencia.setText("Preferêcias: " + child.child("preferencia").value.toString())
+                    }
+                } else {
+                    binding.txtPreferencia.isVisible = false
+                    binding.txtNome.isVisible = false
                 }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
