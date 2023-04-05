@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.benincaza.projetointegracoeskotlin.*
-import com.benincaza.projetointegracoeskotlin.databinding.ActivityBibliotecaBinding
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityLoginScreenBinding
+import com.benincaza.projetointegracoeskotlin.fragments.VerificaEmailFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -25,6 +25,8 @@ class LoginScreen : AppCompatActivity() {
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var firebaseAuth: FirebaseAuth
 
+    lateinit var edtEmail: VerificaEmailFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginScreenBinding.inflate(layoutInflater)
@@ -39,6 +41,8 @@ class LoginScreen : AppCompatActivity() {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         firebaseAuth = FirebaseAuth.getInstance()
+
+        edtEmail = supportFragmentManager.findFragmentById(R.id.edt_email) as VerificaEmailFragment
 
         findViewById<View>(R.id.txt_esqueci_senha).setOnClickListener{
             FormForgotPassword(this)
@@ -106,10 +110,10 @@ class LoginScreen : AppCompatActivity() {
     private fun sign(){
         try {
             val valida = ValidateAuthentication(this)
-            valida.validaCampoEmail(binding.edtEmail)
+            valida.validaCampoEmail(edtEmail)
             valida.validaCampoSenha(binding.edtPassword)
 
-            val userEmail = binding.edtEmail.text.toString().trim()
+            val userEmail = edtEmail.text.toString().trim()
             val userPassword = binding.edtPassword.text.toString().trim()
 
             firebaseAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener { task ->

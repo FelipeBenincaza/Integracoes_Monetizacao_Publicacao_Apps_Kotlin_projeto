@@ -9,6 +9,7 @@ import com.benincaza.projetointegracoeskotlin.ValidateAuthentication
 import com.benincaza.projetointegracoeskotlin.ValidateAuthenticationException
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityCreateAccountBinding
 import com.benincaza.projetointegracoeskotlin.fragments.DificuldadeSenhaFragment
+import com.benincaza.projetointegracoeskotlin.fragments.VerificaEmailFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -32,6 +33,7 @@ class CreateAccount : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
 
     lateinit var edtPassword: DificuldadeSenhaFragment
+    lateinit var edtEmail: VerificaEmailFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +45,9 @@ class CreateAccount : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         edtPassword = supportFragmentManager.findFragmentById(R.id.edt_password) as DificuldadeSenhaFragment
+        edtEmail = supportFragmentManager.findFragmentById(R.id.edt_email) as VerificaEmailFragment
 
-        createAccountInputArray = arrayOf(binding.edtEmail, edtPassword, binding.edtConfirmPassword)
+        createAccountInputArray = arrayOf(edtEmail, edtPassword, binding.edtConfirmPassword)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -109,10 +112,10 @@ class CreateAccount : AppCompatActivity() {
     private fun signIn() {
         try {
             val valida = ValidateAuthentication(this)
-            valida.validaCampoEmail(binding.edtEmail)
+            valida.validaCampoEmail(edtEmail)
             valida.validaCampoRegisterSenha(edtPassword, binding.edtConfirmPassword)
 
-            val userEmail = binding.edtEmail.text.toString().trim()
+            val userEmail = edtEmail.text.toString().trim()
             val userPassword = edtPassword.text.toString().trim()
 
             firebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)

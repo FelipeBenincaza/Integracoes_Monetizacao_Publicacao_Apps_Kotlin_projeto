@@ -28,7 +28,7 @@ class FormForgotPassword(private val context: Context) {
         binding.botaoSalvar.setOnClickListener {
             try {
                 val valida = ValidateAuthentication(context)
-                valida.validaCampoEmail(binding.email)
+                /*valida.validaCampoEmail(binding.email)*/
 
                 val titulo = binding.email.text.toString()
                 val evento = EventoForgotPassword(titulo)

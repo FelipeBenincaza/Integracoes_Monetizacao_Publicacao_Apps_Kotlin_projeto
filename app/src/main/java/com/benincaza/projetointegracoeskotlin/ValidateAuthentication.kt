@@ -3,13 +3,14 @@ package com.benincaza.projetointegracoeskotlin
 import android.content.Context
 import android.widget.EditText
 import com.benincaza.projetointegracoeskotlin.fragments.DificuldadeSenhaFragment
+import com.benincaza.projetointegracoeskotlin.fragments.VerificaEmailFragment
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class ValidateAuthentication(val context: Context) {
 
     @Throws(ValidateAuthenticationException::class)
-    fun validaCampoEmail(email: EditText) {
+    fun validaCampoEmail(email: VerificaEmailFragment) {
         if (email.text.toString().isEmpty())
             throw ValidateAuthenticationException(context.getString(R.string.campo_email_vazio))
 
