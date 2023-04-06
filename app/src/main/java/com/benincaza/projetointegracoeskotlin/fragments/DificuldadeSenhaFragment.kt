@@ -33,16 +33,32 @@ class DificuldadeSenhaFragment : Fragment() {
                     text = edit
                 }
 
+                var ponto: Int
+                val pontoPorTamanho: Int = Math.min(10, text.length) * 7
+
+                ponto = text.length - text.replace("[a-z]".toRegex(), "").length
+                val pontoPorMinuscula: Int = Math.min(2, ponto) * 5
+
+                ponto = text.length - text.replace("[A-Z]".toRegex(), "").length
+                val pontoPorMaiusculas: Int = Math.min(2, ponto) * 5
+
+                ponto = text.length - text.replace("[0-9]".toRegex(), "").length
+                val pontoPorDigitos: Int = Math.min(2, ponto) * 6
+
+                ponto = text.length - text.replace("[a-zA-Z0-9]".toRegex(), "").length
+                val pontoPorSimbolos: Int = Math.min(2, ponto) * 6
+
+                val totalPontos: Int = pontoPorTamanho + pontoPorMinuscula + pontoPorMaiusculas + pontoPorDigitos + pontoPorSimbolos
+
                 if (text.toString().length < 6)
                     txtDificuldade.text = resources.getString(R.string.senha_invalida)
-                else if (text.toString().length < 8)
+                else if (totalPontos < 60)
                     txtDificuldade.text = resources.getString(R.string.senha_fraca)
-                else if (text.toString().length < 10)
+                else if (totalPontos < 90)
                     txtDificuldade.text = resources.getString(R.string.senha_media)
-                else if (text.toString().length < 12)
-                    txtDificuldade.text = resources.getString(R.string.senha_forte)
                 else
                     txtDificuldade.text = resources.getString(R.string.senha_forte)
+
             }
 
         })

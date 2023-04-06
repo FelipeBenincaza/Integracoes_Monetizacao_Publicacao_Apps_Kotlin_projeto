@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toTopOf="@id/edt_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
         android:id="@+id/edt_email"
@@ -32,13 +32,15 @@
         app:layout_constraintBottom_toTopOf="@id/textInputLayoutSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView1"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutSenha"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@id/btn_enter"
@@ -60,6 +62,7 @@
         android:id="@+id/btn_enter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/entrar"
         android:backgroundTint="@color/slateGray"
         app:layout_constraintBottom_toTopOf="@id/txt_esqueci_senha"
@@ -73,6 +76,7 @@
         android:layout_height="wrap_content"
         android:text="@string/forgot_my_password"
         android:textAlignment="center"
+        android:layout_marginTop="15dp"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold|italic"
@@ -90,6 +94,7 @@
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold|italic"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@id/btn_signin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,6 +104,7 @@
         android:id="@+id/btn_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="@string/entrar_com_google"
         android:textColor="@color/white"
         android:padding="10dp"
@@ -106,7 +112,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/txt_register_view"
         app:layout_constraintStart_toStartOf="@+id/txt_register_view"
-        app:layout_constraintTop_toBottomOf="@+id/txt_register_view" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_register_view"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
