@@ -113,14 +113,17 @@ class WeatherFragments : Fragment() {
         descricaoTextView.text = weatherData.description
         bairroCidadeTextView.text = "${cityDistrict.district}, ${cityDistrict.city}"
 
-        val imageView = view.findViewById<ImageView>(R.id.imageView)
-        val drawableId = resources.getIdentifier(getWeatherIcon(weatherData.conditionCode), "drawable", requireContext().packageName)
-        imageView.setImageResource(drawableId)
-        println(weatherData.conditionCode)
+        try{
+            val imageView = view.findViewById<ImageView>(R.id.imageView)
+            val drawableId = resources.getIdentifier(getWeatherIcon(weatherData.conditionCode), "drawable", requireContext().packageName)
+            imageView.setImageResource(drawableId)
 
-        val hexColor = getWeatherColor(weatherData.conditionCode)
-        val color = Color.parseColor(hexColor)
-        imageView.setColorFilter(color)
+            val hexColor = getWeatherColor(weatherData.conditionCode)
+            val color = Color.parseColor(hexColor)
+            imageView.setColorFilter(color)
+        }catch(e: Exception){
+            println(e.message)
+        }
     }
 
     private fun getLocation(view: View){

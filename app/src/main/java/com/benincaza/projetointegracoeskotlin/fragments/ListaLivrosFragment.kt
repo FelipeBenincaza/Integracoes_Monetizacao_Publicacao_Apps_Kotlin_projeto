@@ -63,7 +63,7 @@ class ListaLivrosFragment : Fragment() {
                         listItems.add(Livros(child.child("titulo").value.toString(),
                             child.child("genero").value.toString(),
                             child.child("paginas").value.toString(),
-                            child.child("key").value.toString(),
+                            child.child("data").value.toString(),
                             status))
                     }
                 } else {
@@ -73,7 +73,7 @@ class ListaLivrosFragment : Fragment() {
                             listItems.add(Livros(child.child("titulo").value.toString(),
                                 child.child("genero").value.toString(),
                                 child.child("paginas").value.toString(),
-                                child.child("key").value.toString(),
+                                child.child("data").value.toString(),
                                 status))
                         }
                     }
