@@ -7,7 +7,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -16,20 +15,20 @@ import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.Util
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosBinding
 import com.benincaza.projetointegracoeskotlin.services.NotificationReceiver
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class LivrosActivity : AppCompatActivity() {
 
     private val LIVRO_SHARED = "livro"
     private lateinit var binding: ActivityLivrosBinding
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     val db_ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
 
@@ -42,6 +41,7 @@ class LivrosActivity : AppCompatActivity() {
         binding = ActivityLivrosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         load()
 
         val in_date = binding.edtData
@@ -123,7 +123,12 @@ class LivrosActivity : AppCompatActivity() {
 
     fun createUpdate(){
         if(livroId !== ""){
-            val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/tasks/$taskId")
+            val bundleUpdate = Bundle()
+            bundleUpdate.putString(FirebaseAnalytics.Param.ITEM_ID, uid)
+            bundleUpdate.putString(FirebaseAnalytics.Param.ITEM_NAME, "update_livro")
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleUpdate)
+
+            val ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros/$livroId")
 
             ref.addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -145,6 +150,11 @@ class LivrosActivity : AppCompatActivity() {
                 }
             })
         }else{
+            val bundleCreate = Bundle()
+            bundleCreate.putString(FirebaseAnalytics.Param.ITEM_ID, uid)
+            bundleCreate.putString(FirebaseAnalytics.Param.ITEM_NAME, "create_livro")
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleCreate)
+
             val livro =  hashMapOf(
                 "titulo" to binding.edtTitulo.text.toString(),
                 "genero" to binding.edtGenero.text.toString(),
@@ -158,13 +168,13 @@ class LivrosActivity : AppCompatActivity() {
 
             Util.showToast(this, getString(R.string.livro_criado_sucesso))
 
+            LivroPreferences(this).storeString(LIVRO_SHARED, arrayListOf(binding.edtTitulo.text.toString(), binding.edtData.text.toString()))
+            scheduleNotification(binding.edtData.text.toString(), "19:00")
+
             Intent(this, BibliotecaActivity::class.java).also {
                 startActivity(it)
             }
         }
-
-        LivroPreferences(this).storeString(LIVRO_SHARED, arrayListOf(binding.edtTitulo.text.toString(), binding.edtData.text.toString()))
-        scheduleNotification(binding.edtData.text.toString(), "19:00")
     }
 
 
