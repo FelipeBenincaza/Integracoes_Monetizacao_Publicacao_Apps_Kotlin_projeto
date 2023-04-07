@@ -11,6 +11,7 @@ import com.benincaza.projetointegracoeskotlin.Util
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityBibliotecaBinding
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosLidosBinding
 import com.benincaza.projetointegracoeskotlin.fragments.ListaLivrosFragment
+import com.benincaza.projetointegracoeskotlin.fragments.MenuBottomFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -58,42 +59,6 @@ class LivrosLidosActivity : AppCompatActivity() {
             startActivity(activity)
         }
 
-        binding.bottomNavigation.getMenu().findItem(R.id.nav_lidos).isChecked = true
-
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_all -> {
-                    val activity = Intent(this, BibliotecaActivity::class.java);
-                    startActivity(activity)
-                    finish()
-                    true
-                }
-                R.id.nav_lidos -> {
-                    true
-                }
-                R.id.nav_nao_lidos -> {
-                    val activity = Intent(this, NaoLidosActivity::class.java);
-                    startActivity(activity)
-                    finish()
-                    true
-                }
-                else -> false
-            }
-
-        }
-
-        binding.bottomNavigation.setOnItemReselectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_all -> {
-                    Util.showToast(this, getString(R.string.todos_livros))
-                }
-                R.id.nav_lidos -> {
-                    Util.showToast(this, getString(R.string.livros_lidos))
-                }
-                R.id.nav_nao_lidos -> {
-                    Util.showToast(this, getString(R.string.livros_nao_lidos))
-                }
-            }
-        }
+        /*binding.bottomNavigation.getMenu().findItem(R.id.nav_lidos).isChecked = true*/
     }
 }

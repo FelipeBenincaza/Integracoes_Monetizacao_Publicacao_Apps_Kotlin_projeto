@@ -57,42 +57,6 @@ class NaoLidosActivity : AppCompatActivity() {
             startActivity(activity)
         }
 
-        binding.bottomNavigation.getMenu().findItem(R.id.nav_lidos).isChecked = true
-
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_all -> {
-                    val activity = Intent(this, BibliotecaActivity::class.java);
-                    startActivity(activity)
-                    finish()
-                    true
-                }
-                R.id.nav_lidos -> {
-                    val activity = Intent(this, LivrosLidosActivity::class.java);
-                    startActivity(activity)
-                    finish()
-                    true
-                }
-                R.id.nav_nao_lidos -> {
-                    true
-                }
-                else -> false
-            }
-
-        }
-
-        binding.bottomNavigation.setOnItemReselectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_all -> {
-                    Util.showToast(this, getString(R.string.todos_livros))
-                }
-                R.id.nav_lidos -> {
-                    Util.showToast(this, getString(R.string.livros_lidos))
-                }
-                R.id.nav_nao_lidos -> {
-                    Util.showToast(this, getString(R.string.livros_nao_lidos))
-                }
-            }
-        }
+        /*binding.bottomNavigation.getMenu().findItem(R.id.nav_nao_lidos).isChecked = true*/
     }
 }

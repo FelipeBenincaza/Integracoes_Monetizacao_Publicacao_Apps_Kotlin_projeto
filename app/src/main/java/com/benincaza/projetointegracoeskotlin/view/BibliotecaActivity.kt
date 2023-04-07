@@ -54,41 +54,5 @@ class BibliotecaActivity : AppCompatActivity() {
             val activity = Intent(this, LivrosActivity::class.java);
             startActivity(activity)
         }
-
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_all -> {
-                    true
-                }
-                R.id.nav_lidos -> {
-                    val activity = Intent(this, LivrosLidosActivity::class.java);
-                    startActivity(activity)
-                    finish()
-                    true
-                }
-                R.id.nav_nao_lidos -> {
-                    val activity = Intent(this, NaoLidosActivity::class.java);
-                    startActivity(activity)
-                    finish()
-                    true
-                }
-                else -> false
-            }
-
-        }
-
-        binding.bottomNavigation.setOnItemReselectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_all -> {
-                    Util.showToast(this, getString(R.string.todos_livros))
-                }
-                R.id.nav_lidos -> {
-                    Util.showToast(this, getString(R.string.livros_lidos))
-                }
-                R.id.nav_nao_lidos -> {
-                    Util.showToast(this, getString(R.string.livros_nao_lidos))
-                }
-            }
-        }
     }
 }
