@@ -1,15 +1,20 @@
 package com.benincaza.projetointegracoeskotlin.view
 
-import android.app.DatePickerDialog
+import android.app.*
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.Util
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosBinding
+import com.benincaza.projetointegracoeskotlin.services.NotificationReceiver
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -27,6 +32,7 @@ class LivrosActivity : AppCompatActivity() {
     var livroId: String = ""
     var status: String = ""
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLivrosBinding.inflate(layoutInflater)
@@ -53,6 +59,8 @@ class LivrosActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener{
             createUpdate()
         }
+
+        createNotificationChannel()
     }
 
     fun onRadioButtonClicked(view: View) {
@@ -142,5 +150,56 @@ class LivrosActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+        scheduleNotification(binding.edtData.text.toString(), "19:00")
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(){
+        val name = "Notification Channel INFNET"
+        val descriptionText = "Channel for INFNET notifications"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel("INFNET", name, importance).apply {
+            description = descriptionText
+        }
+
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun scheduleNotification(data: String, hora: String){
+        val intent = Intent(this, NotificationReceiver::class.java)
+        val title = "Título da notificação"
+        val message = "Mensagem da notificação"
+
+        intent.putExtra("title", title)
+        intent.putExtra("message", message)
+
+
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MINUTE, 1)
+        /*val data_dia = data.substring(0, 2).toInt()
+        val data_mes = data.substring(3, 5).toInt() - 1
+        val data_ano = data.substring(6, 10).toInt()
+        val hora_hora = hora.substring(0, 2).toInt()
+        val hora_minuto = hora.substring(3, 5).toInt()
+
+        calendar.set(
+            data_ano,
+            data_mes,
+            data_dia,
+            hora_hora,
+            hora_minuto,
+            0
+        )*/
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        } else {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        }
+        Toast.makeText(this, "Notificação agendada", Toast.LENGTH_SHORT).show()
     }
 }
