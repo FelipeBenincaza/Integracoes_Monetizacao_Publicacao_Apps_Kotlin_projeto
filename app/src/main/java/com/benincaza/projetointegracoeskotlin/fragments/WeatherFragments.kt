@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
+import java.util.*
 
 class WeatherFragments : Fragment() {
 
@@ -46,38 +47,80 @@ class WeatherFragments : Fragment() {
     }
 
     private fun getWeatherIcon(conditionCode: Int): String{
-        return when(conditionCode){
-            in 200..232 -> "wi_thunderstorm"
-            in 300..321 -> "wi_showers"
-            in 500..531 -> "wi_rain"
-            in 600..622 -> "wi_snow"
-            in 701..781 -> "wi_fog"
-            800 -> "wi_day_sunny"
-            801 -> "wi_day_cloudy"
-            802 -> "wi_cloudy"
-            803, 804 -> "wi_day_cloudy_high"
-            1003 -> "wi_day_cloudy"
-            1183 -> "wi_day_light_wind"
-            1276 -> "wi_thunderstorm"
-            else -> "wi_day_sunny"
+        val c = Calendar.getInstance()
+        val hora = c.get(Calendar.HOUR_OF_DAY)
+
+        if (hora < 6 || hora > 17){
+            return when(conditionCode){
+                in 200..232 -> "wi_thunderstorm"
+                in 300..321 -> "wi_showers"
+                in 500..531 -> "wi_rain"
+                in 600..622 -> "wi_night_snow"
+                in 701..781 -> "wi_night_fog"
+                800 -> "wi_night_clear"
+                801 -> "wi_night_cloudy"
+                802 -> "wi_cloudy"
+                803, 804 -> "wi_night_cloudy_high"
+                1003 -> "wi_night_cloudy"
+                1183 -> "wi_night_light_windy"
+                1276 -> "wi_thunderstorm"
+                else -> "wi_night_clear"
+            }
+        }else{
+            return when(conditionCode){
+                in 200..232 -> "wi_thunderstorm"
+                in 300..321 -> "wi_showers"
+                in 500..531 -> "wi_rain"
+                in 600..622 -> "wi_snow"
+                in 701..781 -> "wi_fog"
+                800 -> "wi_day_sunny"
+                801 -> "wi_day_cloudy"
+                802 -> "wi_cloudy"
+                803, 804 -> "wi_day_cloudy_high"
+                1003 -> "wi_day_cloudy"
+                1183 -> "wi_day_light_wind"
+                1276 -> "wi_thunderstorm"
+                else -> "wi_day_sunny"
+            }
         }
     }
 
     private fun getWeatherColor(conditionCode: Int): String{
-        return when(conditionCode){
-            in 200..232 -> "#637E90"
-            in 300..321 -> "#29B3FF"
-            in 500..531 -> "#14C2DD"
-            in 600..622 -> "#E5F2F0"
-            in 701..781 -> "#FFFEA8"
-            800 -> "#FBC740"
-            801 -> "#BCECE0"
-            802 -> "#BCECE0"
-            803, 804 -> "#36EEE0"
-            1003 -> "#BCECE0"
-            1183 -> "#14C2DD"
-            1276 ->"#637E90"
-            else -> "#FBC740"
+        val c = Calendar.getInstance()
+        val hora = c.get(Calendar.HOUR_OF_DAY)
+
+        if (hora < 6 || hora > 17){
+            return when(conditionCode){
+                in 200..232 -> "#637E90"
+                in 300..321 -> "#29B3FF"
+                in 500..531 -> "#14C2DD"
+                in 600..622 -> "#87CEFA"
+                in 701..781 -> "#4169E1"
+                800 -> "#00008B"
+                801 -> "#0000FF"
+                802 -> "#0000FF"
+                803, 804 -> "#89bff5"
+                1003 -> "#1e2e6e"
+                1183 -> "#14C2DD"
+                1276 ->"#637E90"
+                else -> "#00008B"
+            }
+        } else {
+            return when(conditionCode){
+                in 200..232 -> "#637E90"
+                in 300..321 -> "#29B3FF"
+                in 500..531 -> "#14C2DD"
+                in 600..622 -> "#E5F2F0"
+                in 701..781 -> "#FFFEA8"
+                800 -> "#FBC740"
+                801 -> "#BCECE0"
+                802 -> "#BCECE0"
+                803, 804 -> "#36EEE0"
+                1003 -> "#BCECE0"
+                1183 -> "#14C2DD"
+                1276 ->"#637E90"
+                else -> "#FBC740"
+            }
         }
     }
 
