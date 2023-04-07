@@ -69,4 +69,12 @@
     <string name="todos_livros">All the books</string>
     <string name="livros_lidos">Read books</string>
     <string name="livros_nao_lidos">Unread books</string>
+    <string name="senha_invalida">Invalid password</string>
+    <string name="senha_fraca">Weak password</string>
+    <string name="senha_media">Average password</string>
+    <string name="senha_forte">Strong password</string>
+    <string name="email_valido">Valid email</string>
+    <string name="livro_preeencher_campos">Please fill in all fields to register the book.</string>
+    <string name="notification_titulo">Reading forecast ends today!</string>
+    <string name="notification_mensagem">If you haven t finished reading the %1$s, change the forecast date.</string>
 </resources>

@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.benincaza.projetointegracoeskotlin.LivroPreferences
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.Util
 import com.benincaza.projetointegracoeskotlin.databinding.ActivityLivrosBinding
@@ -20,17 +21,20 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class LivrosActivity : AppCompatActivity() {
 
+    private val LIVRO_SHARED = "livro"
     private lateinit var binding: ActivityLivrosBinding
 
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     val db_ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
 
     var livroId: String = ""
-    var status: String = ""
+    var status: String = "Não lido"
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,11 +61,19 @@ class LivrosActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener{
-            createUpdate()
+            if (notEmpty()){
+                createUpdate()
+            } else {
+                Util.showToast(this, getString(R.string.livro_preeencher_campos))
+            }
+
         }
 
         createNotificationChannel()
     }
+
+    private fun notEmpty(): Boolean = binding.edtTitulo.text.toString().trim().isNotEmpty() &&
+            binding.edtGenero.text.toString().trim().isNotEmpty() && binding.edtPaginas.text.toString().trim().isNotEmpty()
 
     fun onRadioButtonClicked(view: View) {
         if (view is RadioButton) {
@@ -150,6 +162,8 @@ class LivrosActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
+        LivroPreferences(this).storeString(LIVRO_SHARED, arrayListOf(binding.edtTitulo.text.toString(), binding.edtData.text.toString()))
         scheduleNotification(binding.edtData.text.toString(), "19:00")
     }
 
@@ -168,20 +182,22 @@ class LivrosActivity : AppCompatActivity() {
     }
 
     private fun scheduleNotification(data: String, hora: String){
-        val intent = Intent(this, NotificationReceiver::class.java)
-        val title = "Título da notificação"
-        val message = "Mensagem da notificação"
+        val itemList = LivroPreferences(this).getString(LIVRO_SHARED)
 
-        intent.putExtra("title", title)
-        intent.putExtra("message", message)
+        val intent = Intent(this, NotificationReceiver::class.java)
+        val titulo = getString(R.string.notification_titulo)
+        val mensagem = getString(R.string.notification_mensagem, itemList[0])
+
+        intent.putExtra("titulo", titulo)
+        intent.putExtra("mensagem", mensagem)
 
 
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.MINUTE, 1)
-        /*val data_dia = data.substring(0, 2).toInt()
+        //calendar.add(Calendar.MINUTE, 1)
+        val data_dia = data.substring(0, 2).toInt()
         val data_mes = data.substring(3, 5).toInt() - 1
         val data_ano = data.substring(6, 10).toInt()
         val hora_hora = hora.substring(0, 2).toInt()
@@ -194,12 +210,11 @@ class LivrosActivity : AppCompatActivity() {
             hora_hora,
             hora_minuto,
             0
-        )*/
+        )
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
         } else {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
         }
-        Toast.makeText(this, "Notificação agendada", Toast.LENGTH_SHORT).show()
     }
 }

@@ -131,6 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nao_lido"
+            android:checked="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rg_lido"
             android:onClick="onRadioButtonClicked"/>

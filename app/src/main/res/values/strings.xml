@@ -73,6 +73,7 @@
     <string name="senha_media">Senha média</string>
     <string name="senha_forte">Senha forte</string>
     <string name="email_valido">E-mail válido</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="livro_preeencher_campos">Favor preencher todos os campos para cadastrar o livro.</string>
+    <string name="notification_titulo">Previsão de leitura termina hoje!</string>
+    <string name="notification_mensagem">Caso não terminou a leitura do %1$s, altere a data de previsão.</string>
 </resources>
