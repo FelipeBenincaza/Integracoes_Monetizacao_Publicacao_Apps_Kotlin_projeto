@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.benincaza.projetointegracoeskotlin.R
+import com.benincaza.projetointegracoeskotlin.Util
 import com.benincaza.projetointegracoeskotlin.adapter.LivroRecyclerView
 import com.benincaza.projetointegracoeskotlin.databinding.FragmentListaLivrosBinding
 import com.benincaza.projetointegracoeskotlin.`interface`.OnClickRecyclerView
@@ -95,7 +96,7 @@ class ListaLivrosFragment : Fragment(), OnClickRecyclerView {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(ctx, "Erro ao carregar tarefas", Toast.LENGTH_SHORT).show()
+                Util.showToast(ctx, ctx.getString(R.string.erro_carregar_livros))
             }
         })
 
@@ -113,25 +114,25 @@ class ListaLivrosFragment : Fragment(), OnClickRecyclerView {
     override fun onClickLongItemListener(livro: Livros) {
         if(livro.key != null){
             AlertDialog.Builder(requireContext())
-                .setTitle("Deletar tarefa")
-                .setMessage("Deseja deletar a tarefa?")
-                .setPositiveButton("Sim"){ dialog, which ->
+                .setTitle(getString(R.string.deletar_livro))
+                .setMessage(getString(R.string.deseja_deletar_livro, livro.titulo))
+                .setPositiveButton(getString(R.string.sim)){ dialog, which ->
 
                     if (livro.photo != null && livro.photo.isNotEmpty()){
                         val desertRef = FirebaseStorage.getInstance().getReferenceFromUrl(Uri.parse(livro.photo).toString())
                         desertRef.delete().addOnSuccessListener {
                             ref.child(livro.key).removeValue()
-                            Toast.makeText(requireContext(), "Livro deletado com sucesso", Toast.LENGTH_SHORT).show()
+                            Util.showToast(requireContext(), requireContext().getString(R.string.livro_deletado_sucesso))
                         }.addOnFailureListener {
-                            Toast.makeText(requireContext(), "Erro ao deletar livro!", Toast.LENGTH_SHORT).show()
+                            Util.showToast(requireContext(), requireContext().getString(R.string.erro_deletar_livro))
                         }
                     } else {
                         ref.child(livro.key).removeValue()
-                        Toast.makeText(requireContext(), "Livro deletado com sucesso", Toast.LENGTH_SHORT).show()
+                        Util.showToast(requireContext(), requireContext().getString(R.string.livro_deletado_sucesso))
                     }
 
                 }
-                .setNegativeButton("Não"){ dialog, which ->
+                .setNegativeButton(getString(R.string.nao)){ dialog, which ->
                     dialog.dismiss()
                 }
                 .show()

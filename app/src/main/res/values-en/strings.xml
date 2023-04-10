@@ -45,8 +45,8 @@
     <string name="entrar">Enter</string>
     <string name="registrar_com_google">Register with Google</string>
     <string name="ler_ate">Read up to</string>
-    <string name="nao_lido">Not read</string>
-    <string name="lido">Read</string>
+    <string name="nao_lido">Not read: %1$s</string>
+    <string name="lido">Read: %1$s</string>
     <string name="minha_biblioteca">My Library</string>
     <string name="email_profile">E-mail</string>
     <string name="nome">Name</string>
@@ -77,4 +77,12 @@
     <string name="livro_preeencher_campos">Please fill in all fields to register the book.</string>
     <string name="notification_titulo">Reading forecast ends today!</string>
     <string name="notification_mensagem">If you haven t finished reading the %1$s, change the forecast date.</string>
+    <string name="deletar_livro">Delete book</string>
+    <string name="deseja_deletar_livro">Do you want to delete the %1$s?</string>
+    <string name="sim">Yes</string>
+    <string name="nao">No</string>
+    <string name="livro_deletado_sucesso">Successfully deleted book!</string>
+    <string name="erro_deletar_livro">Error deleting book!</string>
+    <string name="genero_livro">Gender: %1$s</string>
+    <string name="numero_pagina_livro">Number of pages: %1$s</string>
 </resources>

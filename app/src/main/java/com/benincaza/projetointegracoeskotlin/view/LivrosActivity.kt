@@ -166,7 +166,7 @@ class LivrosActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@LivrosActivity, "Erro ao carregar livro", Toast.LENGTH_SHORT).show()
+                Util.showToast(this@LivrosActivity, getString(R.string.erro_carregar_livros))
             }
         })
     }
@@ -193,11 +193,11 @@ class LivrosActivity : AppCompatActivity() {
                     task["status"] = status
 
                     ref.setValue(task)
-                    Toast.makeText(this@LivrosActivity, "Livro atualizado com sucesso", Toast.LENGTH_SHORT).show()
+                    Util.showToast(this@LivrosActivity, getString(R.string.livro_atualizado_suceso))
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@LivrosActivity, "Erro ao atualizar livro", Toast.LENGTH_SHORT).show()
+                    Util.showToast(this@LivrosActivity, getString(R.string.erro_atualizar_livro))
                 }
             })
         }else{

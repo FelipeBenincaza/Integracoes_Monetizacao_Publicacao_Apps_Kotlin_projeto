@@ -15,17 +15,12 @@ import com.google.firebase.storage.FirebaseStorage
 
 class LivroRecyclerView(private val mList: List<Livros>, private val onClickListener: OnClickRecyclerView) : RecyclerView.Adapter<LivroRecyclerView.ViewHolder>() {
 
-    // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // inflates the card_view_design view
-        // that is used to hold list item
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_livro, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_livro, parent, false)
 
         return ViewHolder(view)
     }
 
-    // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val livro = mList[position]
@@ -41,8 +36,8 @@ class LivroRecyclerView(private val mList: List<Livros>, private val onClickList
         }
 
         holder.titulo.text = livro.titulo
-        holder.genero.text = "Gênero: ${livro.genero}"
-        holder.paginas.text = "Número de páginas: ${livro.paginas}"
+        holder.genero.text =  holder.itemView.context.getString(R.string.genero_livro, livro.genero)
+        holder.paginas.text = holder.itemView.context.getString(R.string.numero_pagina_livro, livro.paginas)
 
         holder.itemView.setOnClickListener {
             onClickListener.onClickItemListener(livro)
@@ -54,12 +49,10 @@ class LivroRecyclerView(private val mList: List<Livros>, private val onClickList
         }
     }
 
-    // return the number of the items in the list
     override fun getItemCount(): Int {
         return mList.size
     }
 
-    // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val titulo: TextView = itemView.findViewById(R.id.txt_titulo)
         val genero: TextView = itemView.findViewById(R.id.txt_genero)

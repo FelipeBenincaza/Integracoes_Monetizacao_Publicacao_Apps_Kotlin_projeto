@@ -45,8 +45,8 @@
     <string name="entrar">Entrer</string>
     <string name="registrar_com_google">S inscrire auprès de Google</string>
     <string name="ler_ate">lire jusqu à</string>
-    <string name="nao_lido">Pas lu</string>
-    <string name="lido">Lire</string>
+    <string name="nao_lido">Pas lu: %1$s</string>
+    <string name="lido">Lire: %1$s</string>
     <string name="minha_biblioteca">Ma bibliothèque</string>
     <string name="email_profile">E-mail</string>
     <string name="nome">Nom</string>
@@ -69,7 +69,6 @@
     <string name="todos_livros">Tous les livres</string>
     <string name="livros_lidos">Lire des livres</string>
     <string name="livros_nao_lidos">Livres non lus</string>
-
     <string name="senha_invalida">Mot de passe incorrect</string>
     <string name="senha_fraca">Mot de passe faible</string>
     <string name="senha_media">Mot de passe moyen</string>
@@ -78,4 +77,12 @@
     <string name="livro_preeencher_campos">Veuillez remplir tous les champs pour enregistrer le livre.</string>
     <string name="notification_titulo">La lecture des prévisions se termine aujourd hui !</string>
     <string name="notification_mensagem">Si vous n avez pas fini de lire le %1$s, modifiez la date prévue.</string>
+    <string name="deletar_livro">Supprimer le livre</string>
+    <string name="deseja_deletar_livro">Voulez-vous supprimer le %1$s?</string>
+    <string name="sim">Oui</string>
+    <string name="nao">Non</string>
+    <string name="livro_deletado_sucesso">Livre supprimé avec succès!</string>
+    <string name="erro_deletar_livro">Erreur lors de la suppression du livre!</string>
+    <string name="genero_livro">Genre: %1$s</string>
+    <string name="numero_pagina_livro">Nombre de pages: %1$s</string>
 </resources>

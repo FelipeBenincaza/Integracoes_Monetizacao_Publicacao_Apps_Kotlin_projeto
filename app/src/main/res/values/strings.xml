@@ -44,8 +44,8 @@
     <string name="entrar">Entrar</string>
     <string name="registrar_com_google">Registrar com Google</string>
     <string name="ler_ate">Ler até</string>
-    <string name="nao_lido">Não lido</string>
-    <string name="lido">Lido</string>
+    <string name="nao_lido">Não lido: %1$s</string>
+    <string name="lido">Lido: %1$s</string>
     <string name="minha_biblioteca">Minha Biblioteca</string>
     <string name="email_profile">E-mail</string>
     <string name="nome">Nome</string>
@@ -76,4 +76,12 @@
     <string name="livro_preeencher_campos">Favor preencher todos os campos para cadastrar o livro.</string>
     <string name="notification_titulo">Previsão de leitura termina hoje!</string>
     <string name="notification_mensagem">Caso não terminou a leitura do %1$s, altere a data de previsão.</string>
+    <string name="deletar_livro">Deletar livro</string>
+    <string name="deseja_deletar_livro">Deseja deletar o %1$s?</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="livro_deletado_sucesso">Livro deletado com sucesso!</string>
+    <string name="erro_deletar_livro">Erro ao deletar livro!</string>
+    <string name="genero_livro">Gênero: %1$s</string>
+    <string name="numero_pagina_livro">Número de páginas: %1$s</string>
 </resources>
