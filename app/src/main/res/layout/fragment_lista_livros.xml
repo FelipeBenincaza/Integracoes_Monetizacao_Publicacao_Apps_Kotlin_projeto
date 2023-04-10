@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ListaLivrosFragment">
 
-    <ListView
-        android:id="@+id/listViewTasks"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView"
-        android:scrollbars="vertical"/>
+        tools:listitem="@layout/row_livro" />
 
 </FrameLayout>

@@ -1,15 +1,23 @@
 package com.benincaza.projetointegracoeskotlin.view
 
+import android.Manifest
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.benincaza.projetointegracoeskotlin.LivroPreferences
 import com.benincaza.projetointegracoeskotlin.R
 import com.benincaza.projetointegracoeskotlin.Util
@@ -21,6 +29,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
 
 class LivrosActivity : AppCompatActivity() {
@@ -28,12 +39,23 @@ class LivrosActivity : AppCompatActivity() {
     private val LIVRO_SHARED = "livro"
     private lateinit var binding: ActivityLivrosBinding
 
+    private val PERMISSION_REQUEST_CAMERA = 0
+    private val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 1
+
+    var _image: Bitmap? = null
+
+
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     val db_ref = FirebaseDatabase.getInstance().getReference("/users/$uid/livros")
 
     var livroId: String = ""
     var status: String = "Não lido"
+
+    companion object{
+        private const val REQUEST_IMAGE_GALLERY = 1
+        private const val REQUEST_IMAGE_CAPTURE = 2
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,16 +79,33 @@ class LivrosActivity : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(this, {_, yearOfYear, monthOfYear, dayOfMonth ->
                 in_date.setText(String.format("%02d/%02d/%04d", dayOfMonth, monthOfYear + 1, yearOfYear))
             }, year, month, day)
+            datePickerDialog.datePicker.minDate = Calendar.getInstance().timeInMillis
             datePickerDialog.show()
         }
 
         binding.btnSave.setOnClickListener{
             if (notEmpty()){
-                createUpdate()
+                saveImagemLivro()
             } else {
                 Util.showToast(this, getString(R.string.livro_preeencher_campos))
             }
+        }
 
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_CAMERA)
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_REQUEST_READ_EXTERNAL_STORAGE)
+        }
+
+        binding.fabFiles.setOnClickListener{
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, LivrosActivity.REQUEST_IMAGE_GALLERY)
+        }
+
+        binding.fabCamera.setOnClickListener{
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, LivrosActivity.REQUEST_IMAGE_CAPTURE)
         }
 
         createNotificationChannel()
@@ -113,6 +152,17 @@ class LivrosActivity : AppCompatActivity() {
                 } else{
                     binding.rbNaoLido.isChecked = true
                 }
+
+                val photo = snapshot.child("photoUrl").value.toString()
+                if (photo != null && photo.isNotEmpty()){
+                    val imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(Uri.parse(photo).toString())
+                    imageRef.getBytes(10 * 1024 * 1024).addOnSuccessListener {
+                        val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+                        binding.capaImage.setImageBitmap(bitmap)
+                    }.addOnFailureListener {
+                        // Handle any errors
+                    }
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -121,7 +171,7 @@ class LivrosActivity : AppCompatActivity() {
         })
     }
 
-    fun createUpdate(){
+    fun createUpdate(uri: String){
         if(livroId !== ""){
             val bundleUpdate = Bundle()
             bundleUpdate.putString(FirebaseAnalytics.Param.ITEM_ID, uid)
@@ -139,6 +189,7 @@ class LivrosActivity : AppCompatActivity() {
                     task["genero"] = binding.edtGenero.text.toString()
                     task["paginas"] = binding.edtPaginas.text.toString()
                     task["data"] = binding.edtData.text.toString()
+                    task["photoUrl"] = uri
                     task["status"] = status
 
                     ref.setValue(task)
@@ -160,6 +211,7 @@ class LivrosActivity : AppCompatActivity() {
                 "genero" to binding.edtGenero.text.toString(),
                 "paginas" to binding.edtPaginas.text.toString(),
                 "data" to binding.edtData.text.toString(),
+                "photoUrl" to uri,
                 "status" to status,
             )
 
@@ -225,6 +277,82 @@ class LivrosActivity : AppCompatActivity() {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
         } else {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        }
+    }
+
+    fun saveImagemLivro(){
+        if (this._image != null){
+            val storage = FirebaseStorage.getInstance()
+            val storageRef = storage.reference
+            val user = FirebaseAuth.getInstance().currentUser
+            val uid = user?.uid
+
+            val date = Calendar.getInstance().time
+
+            var dateTimeFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+            var nomeImg = dateTimeFormat.format(date).replace("/", "_")
+            nomeImg = nomeImg.replace(" ", "_")
+            nomeImg = nomeImg.replace(":", "_")
+
+            val imageRef = storageRef.child("capa_livro/${nomeImg}")
+            val baos = ByteArrayOutputStream()
+            this._image?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+
+            val data = baos.toByteArray()
+            val uploadTask = imageRef.putBytes(data)
+
+            uploadTask.addOnFailureListener {
+                Util.showToast(this, getString(R.string.falha_salvar_imagem))
+            }.addOnSuccessListener { taskSnapshot ->
+                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                    createUpdate(Uri.parse(uri.toString()).toString())
+                }
+            }
+        } else {
+            createUpdate("")
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(requestCode == PERMISSION_REQUEST_CAMERA){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Util.showToast(this, getString(R.string.permissao_camera_concedida))
+            }else{
+                Util.showToast(this, getString(R.string.permissao_camera_negada))
+            }
+        }else if(requestCode == PERMISSION_REQUEST_READ_EXTERNAL_STORAGE){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Util.showToast(this, getString(R.string.permissao_galeria_concedida))
+            }else{
+                Util.showToast(this, getString(R.string.permissao_galeria_negada))
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == RESULT_OK){
+            when(requestCode){
+                LivrosActivity.REQUEST_IMAGE_GALLERY -> {
+                    val selectedImage: Uri? = data?.data
+                    val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
+
+                    binding.capaImage.setImageBitmap(imageBitmap)
+                    this._image = imageBitmap
+                }
+                LivrosActivity.REQUEST_IMAGE_CAPTURE -> {
+                    val imageCaptured =  data?.extras?.get("data") as Bitmap
+                    binding.capaImage.setImageBitmap(imageCaptured)
+                    this._image = imageCaptured
+                }
+            }
         }
     }
 }
