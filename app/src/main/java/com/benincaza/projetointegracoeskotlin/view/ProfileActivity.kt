@@ -87,6 +87,7 @@ class ProfileActivity : AppCompatActivity() {
                     val file = saveLocalFile(photoUrl.toString())
                     runOnUiThread{
                         val bitmap = BitmapFactory.decodeFile(file.path)
+                        this._image = bitmap
                         binding.profileImage.setImageBitmap(bitmap)
                     }
                 }.start()
@@ -241,11 +242,11 @@ class ProfileActivity : AppCompatActivity() {
                     task["photoPerfil"] = uri
 
                     ref.setValue(task)
-                    Util.showToast(this@ProfileActivity, getString(R.string.livro_atualizado_suceso))
+                    Util.showToast(this@ProfileActivity, getString(R.string.perfil_atualizado_sucesso))
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Util.showToast(this@ProfileActivity, getString(R.string.erro_atualizar_livro))
+                    Util.showToast(this@ProfileActivity, getString(R.string.falha_atualizar_perfil))
                 }
             })
         }else{

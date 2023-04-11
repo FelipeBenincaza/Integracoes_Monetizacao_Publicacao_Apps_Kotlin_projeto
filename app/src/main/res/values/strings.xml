@@ -44,8 +44,10 @@
     <string name="entrar">Entrar</string>
     <string name="registrar_com_google">Registrar com Google</string>
     <string name="ler_ate">Ler até</string>
-    <string name="nao_lido">Não lido: %1$s</string>
-    <string name="lido">Lido: %1$s</string>
+    <string name="nao_lido_var">Não lido: %1$s</string>
+    <string name="lido_var">Lido: %1$s</string>
+    <string name="nao_lido">Não lido</string>
+    <string name="lido">Lido</string>
     <string name="minha_biblioteca">Minha Biblioteca</string>
     <string name="email_profile">E-mail</string>
     <string name="nome">Nome</string>

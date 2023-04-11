@@ -108,8 +108,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 binding.txtTotalLivros.text = getString(R.string.total_livros) + ": ${dataSnapshot.children.toList().size}"
-                binding.txtLivrosLido.text = getString(R.string.lido, lido.toString())
-                binding.txtLivrosNaoLido.text = getString(R.string.nao_lido, naoLido.toString())
+                binding.txtLivrosLido.text = getString(R.string.lido_var, lido.toString())
+                binding.txtLivrosNaoLido.text = getString(R.string.nao_lido_var, naoLido.toString())
 
             }
 

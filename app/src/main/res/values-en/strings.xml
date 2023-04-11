@@ -45,7 +45,9 @@
     <string name="entrar">Enter</string>
     <string name="registrar_com_google">Register with Google</string>
     <string name="ler_ate">Read up to</string>
-    <string name="nao_lido">Not read: %1$s</string>
+    <string name="nao_lido_var">Not read: %1$s</string>
+    <string name="lido_var">Read</string>
+    <string name="nao_lido">Not read</string>
     <string name="lido">Read: %1$s</string>
     <string name="minha_biblioteca">My Library</string>
     <string name="email_profile">E-mail</string>
