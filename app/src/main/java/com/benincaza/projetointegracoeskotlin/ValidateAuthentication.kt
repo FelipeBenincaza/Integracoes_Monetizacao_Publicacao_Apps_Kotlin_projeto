@@ -34,7 +34,7 @@ class ValidateAuthentication(val context: Context) {
     @Throws(ValidateAuthenticationException::class)
     fun validaCampoRegisterSenha(password: DificuldadeSenhaFragment, confirmPassword: EditText) {
         if (password.text.toString().trim().isEmpty() && confirmPassword.text.toString().trim().isEmpty())
-            throw ValidateAuthenticationException("Preencher os dois campos de senhas.")
+            throw ValidateAuthenticationException(context.getString(R.string.preencher_campos_senhas))
 
         if(password.text.toString().trim() != confirmPassword.text.toString().trim())
             throw ValidateAuthenticationException(context.getString(R.string.passwords_not_match))

@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        /*AdMob
+        * MobileAds.initialize(this)*/
+
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, WeatherFragments()).commit()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

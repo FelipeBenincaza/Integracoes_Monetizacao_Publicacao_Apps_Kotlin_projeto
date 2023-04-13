@@ -87,4 +87,5 @@
     <string name="erro_deletar_livro">Erreur lors de la suppression du livre!</string>
     <string name="genero_livro">Genre: %1$s</string>
     <string name="numero_pagina_livro">Nombre de pages: %1$s</string>
+    <string name="preencher_campos_senhas">Remplissez les deux champs de mot de passe.</string>
 </resources>

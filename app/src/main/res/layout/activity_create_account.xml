@@ -19,6 +19,7 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:drawableTop="@mipmap/ic_launcher"
         app:layout_constraintBottom_toTopOf="@id/edt_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

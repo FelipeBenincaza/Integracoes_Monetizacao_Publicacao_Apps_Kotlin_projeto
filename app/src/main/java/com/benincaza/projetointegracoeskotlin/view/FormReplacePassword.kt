@@ -37,9 +37,9 @@ class FormReplacePassword(private val context: ProfileActivity) {
                 eventoCriado(evento)
             } catch (e: ValidateAuthenticationException){
                 Util.showToast(context, e.message.toString())
+            }catch (e: Exception){
+                Util.showToast(context, context.getString(R.string.preencher_campos_senhas))
             }
-
-
         }
     }
 }

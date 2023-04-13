@@ -135,6 +135,8 @@ class LoginScreen : AppCompatActivity() {
             }
         } catch (e : ValidateAuthenticationException){
             Util.showToast(this, e.message.toString())
+        } catch (e: Exception){
+            Util.showToast(this, getString(R.string.fill_all_fields))
         }
     }
 }

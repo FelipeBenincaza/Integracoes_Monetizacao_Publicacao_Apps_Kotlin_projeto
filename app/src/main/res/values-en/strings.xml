@@ -87,4 +87,5 @@
     <string name="erro_deletar_livro">Error deleting book!</string>
     <string name="genero_livro">Gender: %1$s</string>
     <string name="numero_pagina_livro">Number of pages: %1$s</string>
+    <string name="preencher_campos_senhas">Fill in the two password fields.</string>
 </resources>
