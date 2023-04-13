@@ -1,4 +1,4 @@
-# projeto_Integrações_Monetização_Publicação_de_Apps_Kotlin
+# projeto_Integrações_Monetização_Publicação_De_Apps_Kotlin
 
 Projeto da disciplina Integrações, Monetização e Publicação de Apps Kotlin 2023.<br> 
 Foi criado um aplicativo para realizar o cadastro de uma lista de livros, cadastro de perfil, previsão do tempo e utilização de ferramentas do firabase como o authentication, realtime database, storage, push notification, analytics, cashlytics e appDistribution.
